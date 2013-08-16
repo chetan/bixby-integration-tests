@@ -68,6 +68,7 @@ if [ -d $c/.git ]; then
 else
   git clone /opt/bixby-integration/src/manager $c
   cd $c
+  cp -a /opt/bixby-integration/src/manager/.bundle .
 fi
 
 mkdir -p tmp
@@ -77,6 +78,7 @@ cd ..
 ln -sf $s/log .
 
 cp -a /opt/bixby-integration/src/manager/vendor/cache vendor/cache
+bundle install --local
 bundle install
 cd config
 cp -a /opt/bixby-integration/manager/database.yml .
