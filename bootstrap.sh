@@ -6,7 +6,7 @@
 
 export http_proxy="http://192.168.80.98:8000"
 
-setup http proxy for apt
+# setup http proxy for apt
 if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
   echo "Acquire { Retries \"0\"; HTTP { Proxy \"$http_proxy\"; }; };" > /tmp/30apt-proxy
   sudo mv /tmp/30apt-proxy /etc/apt/apt.conf.d
@@ -49,22 +49,26 @@ sudo service nginx restart
 # install manager
 echo "export RAILS_ENV=staging" >> ~/.bashrc
 export RAILS_ENV=staging
-sudo mkdir -p /var/www/bixby/shared/log /var/www/bixby/shared/bixby /var/www/bixby/shared/pids /var/www/bixby/current
-sudo chown -R vagrant:vagrant /var/www/bixby
+b=/var/www/bixby
+s=$b/shared
+c=$b/current
+sudo mkdir -p $s/log $s/bixby $s/pids $c
+sudo chown -R vagrant:vagrant $b
 
-if [ -d /var/www/bixby/current/.git ]; then
-  cd /var/www/bixby/current
+if [ -d $c/.git ]; then
+  cd $c
   git pull
 else
-  git clone https://github.com/chetan/bixby-manager.git /var/www/bixby/current
-  cd /var/www/bixby/current
+  git clone https://github.com/chetan/bixby-manager.git $c
+  cd $c
 fi
 
 mkdir -p tmp
 cd tmp
-ln -sf /var/www/bixby/shared/pids .
+ln -sf $s/pids .
 cd ..
-ln -sf /var/www/bixby/shared/log .
+ln -sf $s/log .
+
 
 bundle install
 cd config
@@ -77,7 +81,7 @@ rake db:setup bixby:update_repos
 # assets not compiling for some reason
 # assets:clobber assets:precompile
 
-sudo RAILS_ENV=staging god -c /var/www/bixby/current/config/deploy/bixby.god
+sudo RAILS_ENV=staging god -c $c/config/deploy/bixby.god
 
 
 
@@ -85,4 +89,4 @@ sudo RAILS_ENV=staging god -c /var/www/bixby/current/config/deploy/bixby.god
 \curl -sL https://get.bixby.io | bash -s pixelcop http://localhost
 
 unset http_proxy
-sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop --tags tag1,tag2 -- http://localhost
+sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop -- http://localhost
