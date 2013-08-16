@@ -11,6 +11,7 @@ export https_proxy="http://192.168.80.98:8001"
 echo insecure > /home/vagrant/.curlrc
 echo check_certificate=off > /home/vagrant/.wgetrc
 
+echo 'source $HOME/.bashrc' >> /home/vagrant/.bash_profile
 
 # setup http proxy for apt
 if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
@@ -83,16 +84,18 @@ cp -a /opt/bixby-integration/manager/bixby.yml .
 cd ..
 mkdir -p log
 
-rake db:setup bixby:update_repos
+rake db:setup
 # assets not compiling for some reason
 # assets:clobber assets:precompile
 
+# start services
 sudo RAILS_ENV=staging god -c $c/config/deploy/bixby.god
-
-
 
 # install and register agent
 \curl -sL https://get.bixby.io | bash -s pixelcop http://localhost
 
 unset http_proxy
+unset https_proxy
+
+rake bixby:update_repos
 sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop -- http://localhost
