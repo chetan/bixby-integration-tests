@@ -65,7 +65,7 @@ if [ -d $c/.git ]; then
   cd $c
   git pull
 else
-  git clone https://github.com/chetan/bixby-manager.git $c
+  git clone /opt/bixby-integration/src/manager $c
   cd $c
 fi
 
