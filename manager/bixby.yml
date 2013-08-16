@@ -1,0 +1,25 @@
+
+staging:
+  secret_token: "foobar"
+  default_tenant: "pixelcop"
+  default_tenant_pw: "test"
+  ruby:   "ruby-2.0.0-p247"
+  rvm:    "user"
+  user:   "vagrant"
+  group:  "vagrant"
+
+  # bixby config
+  crypto: true
+  services:
+    - puma
+    - sidekiq
+  manager:
+    root: "/var/www/bixby/shared/bixby"
+    uri:  "http://localhost:3000"
+
+  redis: "localhost:6379"
+  scheduler: "sidekiq"
+  metrics: "mongodb"
+  twilio:
+    account_sid:
+    auth_token:

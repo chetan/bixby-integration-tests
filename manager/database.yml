@@ -1,0 +1,6 @@
+
+staging:
+  adapter: postgresql
+  database: bixby
+  pool: 5
+  timeout: 5000
