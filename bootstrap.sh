@@ -5,6 +5,12 @@
 # run this script as a non-root user (vagrant)
 
 export http_proxy="http://192.168.80.98:8000"
+export https_proxy="http://192.168.80.98:8001"
+
+# make sure curl/wget work with HTTPS intercept
+echo insecure > /home/vagrant/.curlrc
+echo check_certificate=off > /home/vagrant/.wgetrc
+
 
 # setup http proxy for apt
 if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
@@ -69,7 +75,7 @@ ln -sf $s/pids .
 cd ..
 ln -sf $s/log .
 
-
+cp -a /opt/bixby-integration/src/manager/vendor/cache vendor/cache
 bundle install
 cd config
 cp -a /opt/bixby-integration/manager/database.yml .
