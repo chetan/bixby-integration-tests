@@ -4,7 +4,13 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu-12.04-x86_64"
-  config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+
+  # virtualbox
+  # NOTE: does not contain nfs-common
+  # config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+
+  # vmware
+  # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   config.vm.provision :shell, :path => "shim.sh"
 
@@ -14,12 +20,16 @@ Vagrant.configure("2") do |config|
 
   # mount our source
   dir = File.expand_path(File.dirname(__FILE__))
-  config.vm.synced_folder dir, "/opt/bixby-integration"
+  config.vm.synced_folder dir, "/opt/bixby-integration", :nfs => true
 
   # Enable SSH agent forwarding for git clones
   config.ssh.forward_agent = true
 
-  config.vm.provider :virtualbox do |vb|
+  # bridged network - set in global Vagrantfile in order to select correct interface
+  # config.vm.network :public_network
+
+  config.vm.provider :virtualbox do |vb, override|
+    override.vm.network :private_network, ip: "192.168.50.5"
     vb.gui = false # Boot headless
     vb.customize [
       "modifyvm", :id,
@@ -31,9 +41,8 @@ Vagrant.configure("2") do |config|
     ]
   end
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network :public_network
+  config.vm.provider :vmware_fusion do |vm, override|
+    override.vm.network :private_network, ip: "192.168.51.5"
+  end
 
 end
