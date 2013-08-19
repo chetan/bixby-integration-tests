@@ -43,6 +43,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :vmware_fusion do |vm, override|
     override.vm.network :private_network, ip: "192.168.51.5"
+
+    vm.vmx["memsize"]  = "2048"
+    vm.vmx["numvcpus"] = "2"
   end
 
 end
