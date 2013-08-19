@@ -1,2 +1,5 @@
 .vagrant
 src
+vendor
+.bundle
+coverage
