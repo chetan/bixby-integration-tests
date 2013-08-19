@@ -18,13 +18,18 @@ if [ -d src/manager ]; then
 else
   cd src
   echo "* cloning manager"
-  git clone ../../manager manager >/dev/null
+  git clone https://github.com/chetan/bixby-manager.git manager >/dev/null
   echo "* cloning agent"
-  git clone ../../agent agent >/dev/null
+  git clone https://github.com/chetan/bixby-agent.git agent >/dev/null
   cd ..
 fi
 
 cd src/manager
 echo "* updating manager gem cache"
 bundle package --all >/dev/null
+cd ../..
+
+mkdir -p vendor
+cd vendor
+ln -sf ../src/manager/vendor/cache .
 cd ..
