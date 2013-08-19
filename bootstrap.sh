@@ -13,6 +13,11 @@ echo check_certificate=off > /home/vagrant/.wgetrc
 
 echo 'source $HOME/.bashrc' >> /home/vagrant/.bash_profile
 
+# fix apt-get issues:
+# stdin: is not a tty
+# dpkg-preconfigure: unable to re-open stdin: No such file or directory
+DEBIAN_FRONTEND=noninteractive
+
 # setup http proxy for apt
 if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
   echo "Acquire { Retries \"0\"; HTTP { Proxy \"$http_proxy\"; }; };" > /tmp/30apt-proxy
@@ -24,7 +29,7 @@ sudo apt-get -qq -y install git ruby rubygems libcurl4-openssl-dev libmemcache-d
   libsasl2-dev libmysqlclient-dev build-essential python-software-properties \
   libpq-dev postgresql-9.1 postgresql-client-common curl most htop vim-nox \
   gawk libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev \
-  automake libtool bison libffi-dev
+  automake libtool bison libffi-dev screen
 
 sudo add-apt-repository -y ppa:nginx/stable
 sudo add-apt-repository -y ppa:chris-lea/redis-server
@@ -38,6 +43,11 @@ sudo gem install god --no-ri --no-rdoc
 \curl -L https://get.rvm.io | bash -s stable --ruby
 
 source /home/vagrant/.rvm/scripts/rvm
+
+# couple basic configs
+cd $HOME
+wget https://gist.github.com/chetan/4958387/raw/2e4510853a26af9a6a9a1742f2e4df2ef25f7b81/.vimrc
+cp /opt/bixby-integration/etc/.screenrc .
 
 # setup psql
 sudo su - postgres -c 'psql -c "CREATE USER vagrant WITH SUPERUSER;"'
