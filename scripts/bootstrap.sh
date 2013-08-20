@@ -66,7 +66,10 @@ cd /opt/bixby-integration/tests
 bundle install
 
 
+
+################################################################################
 # install manager
+
 echo "export RAILS_ENV=staging" >> ~/.bashrc
 export RAILS_ENV=staging
 b=/var/www/bixby
@@ -105,6 +108,9 @@ rake db:setup
 # start services
 sudo RAILS_ENV=staging god -c $c/config/deploy/bixby.god
 
+
+
+################################################################################
 # install and register agent
 \curl -sL https://get.bixby.io | bash -s pixelcop http://localhost
 
