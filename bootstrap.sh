@@ -34,7 +34,7 @@ sudo apt-get -qq -y install git ruby rubygems libcurl4-openssl-dev libmemcache-d
 sudo add-apt-repository -y ppa:nginx/stable
 sudo add-apt-repository -y ppa:chris-lea/redis-server
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list > /dev/null
 
 sudo apt-get -qq update
 sudo apt-get -qq -y install mongodb-10gen redis-server nginx
@@ -52,7 +52,7 @@ cp /opt/bixby-integration/etc/.screenrc .
 # setup psql
 sudo su - postgres -c 'psql -c "CREATE USER vagrant WITH SUPERUSER;"'
 echo "local   all             vagrant                                peer" \
-  | sudo cat /etc/postgresql/9.1/main/pg_hba.conf - | sudo tee /etc/postgresql/9.1/main/pg_hba.conf
+  | sudo cat /etc/postgresql/9.1/main/pg_hba.conf - | sudo tee /etc/postgresql/9.1/main/pg_hba.conf > /dev/null
 
 # setup nginx
 sudo cp /opt/bixby-integration/manager/nginx.conf /etc/nginx/sites-enabled/bixby
@@ -61,6 +61,9 @@ sudo service nginx restart
 
 # should be on ruby-2.0.0-p247 or later by default
 
+# setup integration test env
+cd /opt/bixby-integration/tests
+bundle install
 
 
 # install manager
@@ -89,7 +92,6 @@ ln -sf $s/log .
 
 cp -a /opt/bixby-integration/src/manager/vendor/cache vendor/cache
 bundle install --local
-bundle install
 cd config
 cp -a /opt/bixby-integration/manager/database.yml .
 cp -a /opt/bixby-integration/manager/bixby.yml .
