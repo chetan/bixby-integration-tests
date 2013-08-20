@@ -1,0 +1,158 @@
+GIT
+  remote: https://github.com/chetan/simplecov-console.git
+  revision: c34fc45134e98d5df1f677b5dd71f3ff0e3b186f
+  specs:
+    simplecov-console (0.1.1)
+      colorize
+      hirb
+      simplecov
+
+GIT
+  remote: https://github.com/chetan/simplecov-html.git
+  revision: 6328490fbafcb873303b6dd1bb228867dacd03b6
+  specs:
+    simplecov-html (0.7.1)
+
+GIT
+  remote: https://github.com/chetan/test_guard.git
+  revision: 7d069b2d7e46fcbecd7a52966fda7d2d1945e2c9
+  specs:
+    test_guard (0.2.1)
+      awesome_print
+      debugger
+      debugger-pry
+      growl
+      listen
+      simplecov
+      simplecov-console
+      single_test
+      turn
+
+GIT
+  remote: https://github.com/sporkrb/spork-testunit.git
+  revision: 8087255296d20dc8e2ff45d4e4c09b09d3078a8d
+  specs:
+    spork-testunit (0.0.8)
+      spork (>= 0.8.0)
+
+GIT
+  remote: https://github.com/sporkrb/spork.git
+  revision: 38ab44f0968c23509912680a04f903fe4ad5c068
+  specs:
+    spork (1.0.0rc3)
+
+PATH
+  remote: vendor/cache/client
+  specs:
+    bixby-client (0.1.4)
+      api-auth
+      bixby-common
+      curb
+      httpi
+      mixlib-shellout
+      multi_json
+      oj
+
+PATH
+  remote: vendor/cache/common
+  specs:
+    bixby-common (0.3.16)
+      httpi
+      logging
+      multi_json
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ansi (1.4.3)
+    api-auth (1.0.3)
+    awesome_print (1.1.0)
+    bahia (0.7.2)
+      open4 (~> 1.3.0)
+    coderay (1.0.9)
+    colorize (0.5.8)
+    columnize (0.3.6)
+    curb (0.8.4)
+    debugger (1.6.1)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.3)
+    debugger-linecache (1.2.0)
+    debugger-pry (0.1.1)
+      debugger (~> 1)
+      pry (>= 0.9.9)
+    debugger-ruby_core_source (1.2.3)
+    ffi (1.9.0)
+    growl (1.0.3)
+    hirb (0.7.1)
+    httpi (2.1.0)
+      rack
+      rubyntlm (~> 0.3.2)
+    linecache (0.46)
+      rbx-require-relative (> 0.0.4)
+    listen (1.3.0)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      rb-kqueue (>= 0.2)
+    little-plugger (1.1.3)
+    logging (1.8.1)
+      little-plugger (>= 1.1.3)
+      multi_json (>= 1.3.6)
+    method_source (0.8.2)
+    minitest (4.7.5)
+    mixlib-shellout (1.2.0)
+    multi_json (1.7.9)
+    oj (2.1.4)
+    open4 (1.3.0)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rack (1.5.2)
+    rake (10.1.0)
+    rake-hooks (1.2.3)
+      rake
+    rb-fsevent (0.9.3)
+    rb-inotify (0.9.1)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.0)
+      ffi (>= 0.5.0)
+    rbx-require-relative (0.0.9)
+    ruby-debug (0.10.4)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4)
+      linecache (>= 0.3)
+    rubyntlm (0.3.4)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    single_test (0.6.0)
+      rake
+    slop (3.4.6)
+    turn (0.9.6)
+      ansi
+    yard (0.8.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  bahia
+  bixby-client!
+  bixby-common!
+  debugger
+  debugger-pry
+  minitest (~> 4.7)
+  pry
+  rake-hooks
+  ruby-debug
+  simplecov
+  simplecov-console!
+  simplecov-html!
+  spork!
+  spork-testunit!
+  test_guard!
+  turn
+  yard

@@ -1,0 +1,19 @@
+# encoding: utf-8
+
+ROOT_PATH = File.expand_path('..', __FILE__)
+
+ENV["RAILS_ENV"] = "staging"
+ENV["BUNDLE_GEMFILE"] = File.join(ROOT_PATH, "Gemfile")
+
+require 'rake'
+
+Dir['lib/tasks/**/*.rake'].each { |rake| load rake }
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/unit/**/test_*.rb'
+  test.verbose = true
+end
+
+task :default => :test

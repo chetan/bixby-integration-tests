@@ -29,6 +29,6 @@ echo "* updating manager gem cache"
 bundle package --all >/dev/null
 
 # update test gem cache
-cd $ROOT
+cd $ROOT/tests
 echo "* updating test gem cache"
 bundle package --all >/dev/null
