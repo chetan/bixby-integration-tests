@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOT=$(dirname $(readlink -f $0))
+ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 cd $ROOT
 
 REPOS="manager agent client common"

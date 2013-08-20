@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
   # vmware
   # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
-  config.vm.provision :shell, :path => "shim.sh"
+  config.vm.provision :shell, :path => "scripts/shim.sh"
 
   # for vagrant-vbguest plugin
   # https://github.com/dotless-de/vagrant-vbguest
