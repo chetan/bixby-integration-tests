@@ -1,35 +1,34 @@
 #!/usr/bin/env bash
 
-cd $(dirname $(readlink -f $0))
-if [ ! -d ../manager ]; then
-  echo "can't locate manager source"
-  exit 1
-fi
+ROOT=$(dirname $(readlink -f $0))
+cd $ROOT
+
+REPOS="manager agent client common"
 
 mkdir -p src
-if [ -d src/manager ]; then
-  cd src/manager
-  echo "* updating manager"
-  git pull >/dev/null
-  cd ../agent
-  echo "* updating agent"
-  git pull >/dev/null
-  cd ../..
+if [ -d $ROOT/src/manager ]; then
+  # git pull
+  for repo in $REPOS; do
+    cd $ROOT/src/$repo
+    echo "* updating $repo"
+    git pull -q >/dev/null
+  done
+
 else
-  cd src
-  echo "* cloning manager"
-  git clone https://github.com/chetan/bixby-manager.git manager >/dev/null
-  echo "* cloning agent"
-  git clone https://github.com/chetan/bixby-agent.git agent >/dev/null
-  cd ..
+  # git clone
+  cd $ROOT/src
+  for repo in $REPOS; do
+    echo "* cloning $repo"
+    git clone -q https://github.com/chetan/bixby-$repo.git $repo >/dev/null
+  done
 fi
 
-cd src/manager
+# update manager gem cache
+cd $ROOT/src/manager
 echo "* updating manager gem cache"
 bundle package --all >/dev/null
-cd ../..
 
-mkdir -p vendor
-cd vendor
-ln -sf ../src/manager/vendor/cache .
-cd ..
+# update test gem cache
+cd $ROOT
+echo "* updating test gem cache"
+bundle package --all >/dev/null
