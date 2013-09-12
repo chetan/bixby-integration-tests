@@ -8,15 +8,15 @@ export http_proxy="http://192.168.80.98:8000"
 export https_proxy="http://192.168.80.98:8001"
 
 # make sure curl/wget work with HTTPS intercept
-echo insecure > /home/vagrant/.curlrc
-echo check_certificate=off > /home/vagrant/.wgetrc
+echo insecure > $HOME/.curlrc
+echo check_certificate=off > $HOME/.wgetrc
 
-echo 'source $HOME/.bashrc' >> /home/vagrant/.bash_profile
+echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 
 # fix apt-get issues:
 # stdin: is not a tty
 # dpkg-preconfigure: unable to re-open stdin: No such file or directory
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 # setup http proxy for apt
 if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
@@ -42,7 +42,7 @@ sudo apt-get -qq -y install mongodb-10gen redis-server nginx
 sudo gem install god --no-ri --no-rdoc
 \curl -L https://get.rvm.io | bash -s stable --ruby
 
-source /home/vagrant/.rvm/scripts/rvm
+source $HOME/.rvm/scripts/rvm
 
 # couple basic configs
 cd $HOME
