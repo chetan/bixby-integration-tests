@@ -26,39 +26,22 @@ def prefork
   end
 
   require "test_guard"
-  require "test_prefork"
+  require "micron/minitest"
+  require "setup/prefork"
 end
 
 def load_simplecov
-  return if ENV["SIMPLECOV_STARTED"]
-  begin
-    require 'simplecov'
-    SimpleCov.start do
-      merge_timeout 7200
-
-      add_filter '/test/'
-      add_filter '/config/'
-
-      add_group 'Libraries', 'lib'
-    end
-    ENV["SIMPLECOV_STARTED"] = "1"
-  rescue Exception => ex
-    warn "simplecov not available"
-  end
+  EasyCov.path = "coverage"
+  EasyCov.filters << EasyCov::IGNORE_GEMS << EasyCov::IGNORE_STDLIB
+  EasyCov.start
 end
 
 def bootstrap_tests
-
   if spork_running? or zeus_running? then
     load_simplecov()
   end
 
-  require "test_setup" # base TestCase
-
-  # require files in order to force coverage reports
-  [ "lib", "app" ].each do |d|
-    Dir.glob(File.join(ROOT_PATH, d, "**/*.rb")).each{ |f| next if f =~ %r{lib/capistrano}; require f }
-  end
+  require "setup/base"
 end
 
 if Object.const_defined? :Spork then

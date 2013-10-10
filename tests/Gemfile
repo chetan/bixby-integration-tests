@@ -25,13 +25,13 @@ group :development do
 
     # test tools (frameworks, mock, runners, etc)
     gem 'rake-hooks', :require => false
-    gem "minitest", "~>4.7"
-    gem "turn"
     gem "bahia"
     gem 'spork', :git => "https://github.com/sporkrb/spork.git", :require => false
     gem 'spork-testunit', :git => "https://github.com/sporkrb/spork-testunit.git", :require => false
 
     # test utils
+    gem "easycov", :github => "chetan/easycov"
+    gem "micron", :github => "chetan/micron"
     gem "test_guard", :git => "https://github.com/chetan/test_guard.git"
 
     # misc
