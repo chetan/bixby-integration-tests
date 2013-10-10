@@ -4,8 +4,8 @@
 # so instead we run shim.sh via vagrant's provisioner which in turn will
 # run this script as a non-root user (vagrant)
 
-export http_proxy="http://192.168.80.98:8000"
-export https_proxy="http://192.168.80.98:8001"
+# export http_proxy="http://192.168.80.98:8000"
+# export https_proxy="http://192.168.80.98:8001"
 
 # make sure curl/wget work with HTTPS intercept
 echo insecure > $HOME/.curlrc
@@ -19,7 +19,7 @@ echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 export DEBIAN_FRONTEND=noninteractive
 
 # setup http proxy for apt
-if [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
+if [[ ! -z "$http_proxy" ]] && [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
   echo "Acquire { Retries \"0\"; HTTP { Proxy \"$http_proxy\"; }; };" > /tmp/30apt-proxy
   sudo mv /tmp/30apt-proxy /etc/apt/apt.conf.d
 fi
