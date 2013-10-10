@@ -4,19 +4,9 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu-12.04-x86_64"
-
-  # virtualbox
-  # NOTE: does not contain nfs-common
-  # config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
-
-  # vmware
-  # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+  config.vm.hostname = "bixbytest"
 
   config.vm.provision :shell, :path => "scripts/shim.sh"
-
-  # for vagrant-vbguest plugin
-  # https://github.com/dotless-de/vagrant-vbguest
-  config.vbguest.iso_path = "#{ENV['HOME']}/downloads/VBoxGuestAdditions_%{version}.iso"
 
   # mount our source
   dir = File.expand_path(File.dirname(__FILE__))
@@ -28,18 +18,10 @@ Vagrant.configure("2") do |config|
   # bridged network - set in global Vagrantfile in order to select correct interface
   # config.vm.network :public_network
 
-  config.vm.provider :virtualbox do |vb, override|
-    override.vm.network :private_network, ip: "192.168.50.5"
-    vb.gui = false # Boot headless
-    vb.customize [
-      "modifyvm", :id,
-      "--memory", "2048",
-      "--cpus", "2",
-      "--usb", "off",
-      "--usbehci", "off",
-      "--audio", "none"
-    ]
-  end
+
+  ##############################################################################
+  # VMWARE FUSION
+  config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   config.vm.provider :vmware_fusion do |vm, override|
     override.vm.network :private_network, ip: "192.168.51.5"
@@ -47,5 +29,32 @@ Vagrant.configure("2") do |config|
     vm.vmx["memsize"]  = "2048"
     vm.vmx["numvcpus"] = "2"
   end
+  #
+  ##############################################################################
+
+  ##############################################################################
+  # VIRTUALBOX
+  # NOTE: does not contain nfs-common
+
+  # config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+
+  # for vagrant-vbguest plugin
+  # https://github.com/dotless-de/vagrant-vbguest
+  # config.vbguest.iso_path = "#{ENV['HOME']}/downloads/VBoxGuestAdditions_%{version}.iso"
+
+  # config.vm.provider :virtualbox do |vb, override|
+  #   override.vm.network :private_network, ip: "192.168.50.5"
+  #   vb.gui = false # Boot headless
+  #   vb.customize [
+  #     "modifyvm", :id,
+  #     "--memory", "2048",
+  #     "--cpus", "2",
+  #     "--usb", "off",
+  #     "--usbehci", "off",
+  #     "--audio", "none"
+  #   ]
+  # end
+  #
+  ##############################################################################
 
 end
