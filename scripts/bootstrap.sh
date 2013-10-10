@@ -73,7 +73,6 @@ bundle install
 
 echo "export RAILS_ENV=staging" >> ~/.bashrc
 /opt/bixby-integration/scripts/install_manager.sh
-rake bixby:update_repos
 
 
 ################################################################################

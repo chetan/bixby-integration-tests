@@ -1,5 +1,8 @@
+#!/usr/bin/env bash
 
 # install bixby-manager
+
+source $HOME/.rvm/scripts/rvm
 
 export RAILS_ENV=staging
 b=/var/www/bixby
@@ -34,7 +37,9 @@ cp -a /opt/bixby-integration/manager/mongoid.yml .
 cd ..
 mkdir -p log
 
-rake db:setup
+cd $c
+rake db:setup bixby:update_repos
+
 # assets not compiling for some reason
 # assets:clobber assets:precompile
 
