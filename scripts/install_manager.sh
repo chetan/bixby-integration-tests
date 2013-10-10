@@ -40,9 +40,7 @@ cp -a /opt/bixby-integration/manager/database.yml \
 cd $current
 rake db:create db:schema:load
 rake db:seed bixby:update_repos
-
-# assets not compiling for some reason
-# assets:clobber assets:precompile
+RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile
 
 # start services
 sudo RAILS_ENV=staging god -c $current/config/deploy/bixby.god
