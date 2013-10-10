@@ -25,6 +25,7 @@ if [[ ! -z "$http_proxy" ]] && [[ ! -f /etc/apt/apt.conf.d/30apt-proxy ]]; then
 fi
 
 sudo apt-get -qq update
+sudo DEBIAN_FRONTEND=noninteractive apt-get -qqy -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 sudo apt-get -qq -y install git ruby rubygems libcurl4-openssl-dev libmemcache-dev \
   libsasl2-dev libmysqlclient-dev build-essential python-software-properties \
   libpq-dev postgresql-9.1 postgresql-client-common curl most htop vim-nox \
@@ -98,6 +99,7 @@ bundle install --local
 cd config
 cp -a /opt/bixby-integration/manager/database.yml .
 cp -a /opt/bixby-integration/manager/bixby.yml .
+cp -a /opt/bixby-integration/manager/mongoid.yml .
 cd ..
 mkdir -p log
 

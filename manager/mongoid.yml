@@ -1,0 +1,10 @@
+
+staging:
+  sessions:
+    default:
+      database: bixby_metrics_development
+      hosts:
+        - localhost:27017
+      options:
+  options:
+    identity_map_enabled: false
