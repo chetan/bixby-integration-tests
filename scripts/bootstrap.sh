@@ -73,6 +73,7 @@ bundle install
 
 echo "export RAILS_ENV=staging" >> ~/.bashrc
 /opt/bixby-integration/scripts/install_manager.sh
+rake bixby:update_repos
 
 
 ################################################################################
@@ -82,5 +83,4 @@ echo "export RAILS_ENV=staging" >> ~/.bashrc
 unset http_proxy
 unset https_proxy
 
-rake bixby:update_repos
 sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop -- http://localhost
