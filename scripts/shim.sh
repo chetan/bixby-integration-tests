@@ -1,2 +1,2 @@
 
-sudo -u vagrant -i /opt/bixby-integration/bootstrap.sh
+sudo -u vagrant -i /opt/bixby-integration/scripts/bootstrap.sh
