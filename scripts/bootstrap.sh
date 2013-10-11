@@ -7,6 +7,11 @@
 # export http_proxy="http://192.168.80.98:8000"
 # export https_proxy="http://192.168.80.98:8001"
 
+# already been bootstrapped
+if [ -d /opt/bixby ]; then
+  exit
+fi
+
 # make sure curl/wget work with HTTPS intercept
 echo insecure > $HOME/.curlrc
 echo check_certificate=off > $HOME/.wgetrc
