@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# make sure it's stopped first
+/opt/bixby-integration/scripts/manager/stop.sh
+
 # install bixby-manager
 
 source $HOME/.rvm/scripts/rvm
@@ -41,6 +44,5 @@ cp -a /opt/bixby-integration/manager/database.yml \
 
 cd $current
 rake db:drop
-rake db:create db:schema:load
-rake db:seed bixby:update_repos
+rake db:reset bixby:update_repos > /dev/null
 RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile
