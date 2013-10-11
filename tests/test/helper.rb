@@ -27,12 +27,15 @@ def prefork
 
   require "test_guard"
   require "micron/minitest"
-  require "setup/prefork"
 end
 
 def load_simplecov
   EasyCov.path = "coverage"
   EasyCov.filters << EasyCov::IGNORE_GEMS << EasyCov::IGNORE_STDLIB
+  EasyCov.filters << lambda { |filename|
+    # ignore vendored files
+    filename !~ %r(#{EasyCov.root}/vendor/)
+  }
   EasyCov.start
 end
 

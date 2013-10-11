@@ -18,6 +18,14 @@ module Bixby
   end # Test
 
   module Integration
+    module Agent
+    end
+
+    module Manager
+    end
+
+    module Repo
+    end
   end
 
 end # Bixby
