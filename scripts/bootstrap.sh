@@ -77,7 +77,7 @@ bundle install
 # install manager
 
 echo "export RAILS_ENV=staging" >> ~/.bashrc
-/opt/bixby-integration/scripts/install_manager.sh
+/opt/bixby-integration/scripts/manager/upgrade.sh
 
 ################################################################################
 # install and register agent

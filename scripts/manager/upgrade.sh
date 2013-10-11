@@ -9,6 +9,8 @@ bixby=/var/www/bixby
 shared=$bixby/shared
 current=$bixby/current
 
+sudo rm -rf /var/www/bixby
+
 echo "creating $bixby"
 sudo mkdir -p $shared/log $shared/bixby $shared/pids $current
 sudo chown -R vagrant:vagrant $bixby
