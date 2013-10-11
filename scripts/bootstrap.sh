@@ -74,12 +74,9 @@ bundle install
 echo "export RAILS_ENV=staging" >> ~/.bashrc
 /opt/bixby-integration/scripts/install_manager.sh
 
-
 ################################################################################
 # install and register agent
 \curl -sL https://get.bixby.io | bash -s pixelcop http://localhost
 
 unset http_proxy
 unset https_proxy
-
-sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop -- http://localhost
