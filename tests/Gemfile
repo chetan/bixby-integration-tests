@@ -2,8 +2,8 @@
 source "https://rubygems.org"
 
 group :development do
-
     # bixby gems
+    gem "api-auth", :github => "chetan/api_auth", :branch => "bixby"
     gem "bixby-common", :path => "../src/common"
     gem "bixby-client", :path => "../src/client"
 
