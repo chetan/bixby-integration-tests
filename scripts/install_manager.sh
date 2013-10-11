@@ -38,6 +38,7 @@ cp -a /opt/bixby-integration/manager/database.yml \
       $current/config/
 
 cd $current
+rake db:drop
 rake db:create db:schema:load
 rake db:seed bixby:update_repos
 RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile
