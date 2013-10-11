@@ -13,6 +13,7 @@ def prefork
     # add to library load path
     $: << root
   end
+  $: << File.join(File.dirname(root), "lib")
 
   require "rubygems"
   if not defined? ::Bundler then

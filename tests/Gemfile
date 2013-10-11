@@ -7,27 +7,8 @@ group :development do
     gem "bixby-common", :path => "../src/common"
     gem "bixby-client", :path => "../src/client"
 
-    # gem "pg", :platforms => [:mri, :rbx]
-
-    # debugging
-    gem "ruby-debug",   :platforms => :mri_18
-    gem "debugger",     :platforms => [:mri_19, :mri_20]
-    gem "debugger-pry", :require => "debugger/pry", :platforms => [:mri_19, :mri_20]
-    gem "awesome_print"
-
-    # utils
-    gem "pry"
-
-    # coverage
-    gem "simplecov",            :platforms => [:mri_19, :mri_20], :require => false
-    gem "simplecov-html",       :platforms => [:mri_19, :mri_20], :git => "https://github.com/chetan/simplecov-html.git", :require => false
-    gem "simplecov-console",    :platforms => [:mri_19, :mri_20], :git => "https://github.com/chetan/simplecov-console.git", :require => false
-
     # test tools (frameworks, mock, runners, etc)
     gem 'rake-hooks', :require => false
-    gem "bahia"
-    gem 'spork', :git => "https://github.com/sporkrb/spork.git", :require => false
-    gem 'spork-testunit', :git => "https://github.com/sporkrb/spork-testunit.git", :require => false
 
     # test utils
     gem "easycov", :github => "chetan/easycov"
@@ -35,5 +16,7 @@ group :development do
     gem "test_guard", :git => "https://github.com/chetan/test_guard.git"
 
     # misc
+    gem "awesome_print"
+    gem "pry"
     gem "yard"
 end
