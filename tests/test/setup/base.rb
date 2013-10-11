@@ -32,6 +32,8 @@ module Bixby
       end
 
       def reset_manager
+        shell = systemu("/opt/bixby-integration/scripts/manager/stop.sh")
+        assert shell.success?, "manager stopped successfully"
         shell = systemu("/opt/bixby-integration/scripts/manager/reset.sh")
         assert shell.success?, "manager reset successfully"
       end
