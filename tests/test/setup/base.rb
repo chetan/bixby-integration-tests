@@ -1,4 +1,5 @@
 
+require 'bixby-client'
 require 'bixby-client/patch/shellout'
 
 require 'httpi'
@@ -16,6 +17,7 @@ module Bixby
       @@redir_logger = Logging.logger[Bixby]
 
       def setup
+        ENV["BIXBY_HOME"] = "/opt/bixby"
       end
 
       def teardown

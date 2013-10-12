@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/chetan/api_auth.git
+  revision: 2440c3a1d23b95977185ce25210c86cbeded7cee
+  branch: bixby
+  specs:
+    api-auth (1.0.3)
+
+GIT
   remote: git://github.com/chetan/easycov.git
   revision: 22b15445d23aaf58208693a02a6597f02577e412
   specs:
@@ -10,7 +17,7 @@ GIT
 
 GIT
   remote: git://github.com/chetan/micron.git
-  revision: fc5e67200e33eebd25dfe0661cc88a631ebfea2f
+  revision: d722ad58ca390cdaf01d27d77aea1fbe951d0bca
   specs:
     micron (0.1.0)
       colorize
@@ -30,7 +37,7 @@ GIT
       simplecov-console
 
 PATH
-  remote: vendor/cache/client
+  remote: ../src/client
   specs:
     bixby-client (0.2.2)
       api-auth
@@ -43,7 +50,7 @@ PATH
       oj
 
 PATH
-  remote: vendor/cache/common
+  remote: ../src/common
   specs:
     bixby-common (0.4.7)
       api-auth
@@ -56,7 +63,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    api-auth (1.0.3)
     awesome_print (1.2.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -117,6 +123,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  api-auth!
   awesome_print
   bixby-client!
   bixby-common!

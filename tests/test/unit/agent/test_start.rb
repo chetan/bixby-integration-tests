@@ -4,14 +4,11 @@ require 'helper'
 class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
 
   def test_register_new_agent
-
     reset_manager
     reset_agent
 
     start_manager
     wait_for_manager
-
-    req = http_get("http://localhost/")
 
     register_agent
 
@@ -27,7 +24,26 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
       assert_equal 0, File.stat(f).uid, "#{f} owned by root"
     end
 
-    flunk
+    agent_config = YAML.load_file("/opt/bixby/etc/bixby.yml")
+    %w{manager_uri uuid mac_address access_key secret_key log_level}.each do |k|
+      assert_includes agent_config, k
+    end
+
+    # verify host object was created
+    hosts = Bixby::Model::Host.list
+    assert hosts
+    assert_kind_of Array, hosts
+    assert_equal 1, hosts.size
+
+    # verify host attributes
+    h = hosts.first
+    assert_equal 1, h["id"]
+    assert_equal "bixbytest", h["hostname"]
+    assert_equal "127.0.0.1", h["ip"]
+    assert_equal "default", h["org"]
+    assert_equal "new", h["tags"]
+    assert_nil h["alias"]
+    assert_nil h["desc"]
   end
 
 end
