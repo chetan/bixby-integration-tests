@@ -36,13 +36,14 @@ ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
 
 cp -a /opt/bixby-integration/src/manager/vendor/cache vendor/cache
-bundle install --local
+bundle install --local > /dev/null
 cp -a /opt/bixby-integration/manager/database.yml \
       /opt/bixby-integration/manager/bixby.yml \
       /opt/bixby-integration/manager/mongoid.yml \
       $current/config/
 
 cd $current
-rake db:drop > /dev/null
-rake db:setup bixby:update_repos > /dev/null
-RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile > /dev/null
+rake db:drop >/dev/null
+rake db:create db:schema:load >/dev/null
+RAILS_ENV=staging RAILS_GROUPS=assets rake \
+  db:seed bixby:update_repos assets:clobber assets:precompile > /dev/null
