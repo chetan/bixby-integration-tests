@@ -61,8 +61,9 @@ echo "local   all             vagrant                                peer" \
   | sudo cat /etc/postgresql/9.1/main/pg_hba.conf - | sudo tee /etc/postgresql/9.1/main/pg_hba.conf > /dev/null
 
 # setup nginx
-sudo cp /opt/bixby-integration/manager/nginx.conf /etc/nginx/sites-enabled/bixby
-sudo rm -f /etc/nginx/sites-enabled/default
+sudo rm -f /etc/nginx/sites-enabled/*
+sudo cp /opt/bixby-integration/manager/nginx/nginx.conf /etc/nginx/nginx.conf
+sudo cp /opt/bixby-integration/manager/nginx/bixby.conf /etc/nginx/sites-enabled/bixby.conf
 sudo service nginx restart
 
 # should be on ruby-2.0.0-p247 or later by default
