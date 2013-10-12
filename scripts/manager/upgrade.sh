@@ -43,6 +43,6 @@ cp -a /opt/bixby-integration/manager/database.yml \
       $current/config/
 
 cd $current
-rake db:drop
-rake db:reset bixby:update_repos > /dev/null
-RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile
+rake db:drop > /dev/null
+rake db:setup bixby:update_repos > /dev/null
+RAILS_ENV=staging RAILS_GROUPS=assets rake assets:clobber assets:precompile > /dev/null
