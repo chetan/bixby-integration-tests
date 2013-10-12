@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# make sure stopped before upgrade
+/opt/bixby-integration/scripts/agent/stop.sh
+
 shim=/opt/bixby-integration/scripts/agent-shim
 
 # upgrade bundler if needed
@@ -16,7 +19,7 @@ for proj in common client agent; do
   echo "* updating $proj"
   echo
   cd /opt/bixby-integration/src/$proj
-  git reset --hard
+  # git reset --hard
   git pull
 
   rm -rf pkg *.gem
