@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git://github.com/chetan/easycov.git
-  revision: 22b15445d23aaf58208693a02a6597f02577e412
+  revision: 0fd0c852ae174c8de7c4d5c904c59b6cd1869d66
   specs:
-    easycov (0.3.1)
+    easycov (0.4.0)
       multi_json
       simplecov
       simplecov-console
@@ -17,9 +17,9 @@ GIT
 
 GIT
   remote: git://github.com/chetan/micron.git
-  revision: d722ad58ca390cdaf01d27d77aea1fbe951d0bca
+  revision: cd888a6d8436df52d8267552ca7c0105a84b637d
   specs:
-    micron (0.1.0)
+    micron (0.5.0)
       colorize
       easycov
       hitimes
@@ -81,7 +81,7 @@ GEM
     httpi (2.1.0)
       rack
       rubyntlm (~> 0.3.2)
-    listen (2.0.4)
+    listen (2.1.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
