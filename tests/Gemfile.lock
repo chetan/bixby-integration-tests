@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: git://github.com/chetan/micron.git
-  revision: cd888a6d8436df52d8267552ca7c0105a84b637d
+  revision: 93984e01daf0820b2f7781aeacaee52b5934592c
   specs:
     micron (0.5.0)
       colorize
@@ -25,8 +25,8 @@ GIT
       hitimes
 
 GIT
-  remote: https://github.com/chetan/test_guard.git
-  revision: 6e184096f7713cefe6eab3d250b18d214e09a1ca
+  remote: git://github.com/chetan/test_guard.git
+  revision: 0c21a29cc9aaabbeb9224da50a8cfcfb50665bf3
   specs:
     test_guard (0.2.1)
       awesome_print
@@ -91,7 +91,7 @@ GEM
       multi_json (>= 1.3.6)
     method_source (0.8.2)
     mixlib-shellout (1.2.0)
-    multi_json (1.8.1)
+    multi_json (1.8.2)
     oj (2.1.6)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
