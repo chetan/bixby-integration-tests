@@ -37,7 +37,6 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
     assert_equal @agent_id, data["agent_id"]
     assert_equal command["id"], data["command_id"]
     assert data["enabled"]
-    assert_empty data["args"]
 
     # check should have been written to config.json as well, verify it
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
@@ -77,6 +76,7 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     assert check
     assert check["name"] =~ /load average/i
+    assert_empty check["args"]
 
     wait_for_mon_daemon()
   end
@@ -91,6 +91,7 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     assert check
     assert check["name"] =~ /cpu usage/i
+    assert_empty check["args"]
 
     wait_for_mon_daemon()
   end
@@ -105,6 +106,7 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     assert check
     assert check["name"] =~ /disk usage/i
+    assert_empty check["args"]
 
     wait_for_mon_daemon()
   end
@@ -119,6 +121,7 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     assert check
     assert check["name"] =~ /inode usage/i
+    assert_empty check["args"]
 
     wait_for_mon_daemon()
   end
@@ -132,7 +135,6 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
     res = Bixby.client.exec_api(req)
-    p res
     assert res
     assert res.success?
 
@@ -149,6 +151,82 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
         break if ps.last == "mon_daemon.rb" && ps.first == "bixby" && ps[1] != pid
       end
     }
+  end
+
+  def test_add_port_check
+
+    check = add_check({
+      :repo    => "vendor",
+      :bundle  => "hardware/network",
+      :command => "monitoring/port_check.rb",
+    }, {:port => "localhost:80"})
+
+    assert check
+    assert check["name"] =~ /port check/i
+    refute_empty check["args"]
+    assert_equal "localhost:80", check["args"]["port"]
+
+    wait_for_mon_daemon()
+  end
+
+  def test_add_ping
+
+    check = add_check({
+      :repo    => "vendor",
+      :bundle  => "hardware/network",
+      :command => "monitoring/ping.rb",
+    }, {:host => "localhost"})
+
+    assert check
+    assert check["name"] =~ /ping/i
+    refute_empty check["args"]
+    assert_equal "localhost", check["args"]["host"]
+
+    wait_for_mon_daemon()
+  end
+
+  def test_add_connection_count
+
+    check = add_check({
+      :repo    => "vendor",
+      :bundle  => "hardware/network",
+      :command => "monitoring/connection_count.rb",
+    }, {:port => "80,22"})
+
+    assert check
+    refute_empty check["args"]
+    assert_equal "80,22", check["args"]["port"]
+
+    wait_for_mon_daemon()
+  end
+
+  def test_add_connection_state
+
+    check = add_check({
+      :repo    => "vendor",
+      :bundle  => "hardware/network",
+      :command => "monitoring/connection_state.rb",
+    }, nil)
+
+    assert check
+    assert_empty check["args"]
+
+    wait_for_mon_daemon()
+  end
+
+  def test_add_process_usage
+
+    check = add_check({
+      :repo    => "vendor",
+      :bundle  => "system/general",
+      :command => "monitoring/process_usage.rb",
+    }, {:command_name => "mongod"})
+
+    assert check
+    refute_empty check["args"]
+    assert_equal "mongod", check["args"]["command_name"]
+
+    wait_for_mon_daemon()
   end
 
 end
