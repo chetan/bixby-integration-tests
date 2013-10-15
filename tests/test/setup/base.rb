@@ -66,6 +66,7 @@ module Bixby
       # Wait for a file to exist, for at most limit seconds
       #
       # @param [String] filename
+      # @param [Fixnum] limit
       #
       # @return [Boolean] true if file was found within time limit
       # @raise [ExitException] if timeout
@@ -74,6 +75,22 @@ module Bixby
           while true do
             return true if File.exists?(filename)
             sleep 0.25
+          end
+        }
+      end
+
+      # Wait for the given file to change (according to mtime)
+      #
+      # @param [String] filename
+      # @param [Time] start
+      # @param [Fixnum] limit
+      #
+      # @return [Boolean] true if file was changed within time limit
+      # @raise [ExitException] if timeout
+      def wait_for_file_change(filename, start, limit)
+        timeout(limit) {
+          while true do
+            return true if File.exists?(filename) && File.stat(filename).mtime > start
           end
         }
       end
