@@ -44,6 +44,13 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
     assert_equal "new", h["tags"]
     assert_nil h["alias"]
     assert_nil h["desc"]
+
+    # make sure logs have correct perms safter agent start
+    shell = systemu("ls -l /opt/bixby/var/bixby-agent.log* | cut -f1 -d' '")
+    shell.stdout.split(/\n/).each do |line|
+      assert_equal "-rwxrwxrwx", line.strip
+    end
+
   end
 
 end
