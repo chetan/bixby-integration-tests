@@ -46,6 +46,7 @@ def bootstrap_tests
   end
 
   require "setup/base"
+  require "setup/agent_test_case"
 end
 
 if Object.const_defined? :Spork then
