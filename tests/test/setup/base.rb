@@ -13,6 +13,8 @@ module Bixby
   module Test
     class TestCase < Micron::TestCase
 
+      include Timeout
+
       include Micron::TestCase::RedirLogging
       @@redir_logger = Logging.logger[Bixby]
 
@@ -23,16 +25,19 @@ module Bixby
       def teardown
       end
 
+      # Reset agent state, but do not start
       def reset_agent
         shell = systemu("/opt/bixby-integration/scripts/agent/stop.sh")
         assert shell.success?, "agent reset successfully"
       end
 
+      # Start the agent daemon (register with the manager)
       def register_agent
         shell = systemu("sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop -- http://localhost")
         assert shell.success?, "agent started successfully"
       end
 
+      # Reset the manager state, but do not start
       def reset_manager
         shell = systemu("/opt/bixby-integration/scripts/manager/stop.sh")
         assert shell.success?, "manager stopped successfully"
@@ -40,16 +45,35 @@ module Bixby
         assert shell.success?, "manager reset successfully"
       end
 
+      # Start the manager (via god)
       def start_manager
         shell = systemu("sudo RAILS_ENV=staging god -c /var/www/bixby/current/config/deploy/bixby.god")
         assert shell.success?, "manager started successfully"
       end
 
+      # Wait for manager to come up (at most 60 sec)
       def wait_for_manager
-        while true do
-          sleep 0.5
-          return if http_get("http://localhost/").code < 500
-        end
+        timeout(60) {
+          while true do
+            sleep 0.5
+            return if http_get("http://localhost/").code < 500
+          end
+        }
+      end
+
+      # Wait for a file to exist, for at most limit seconds
+      #
+      # @param [String] filename
+      #
+      # @return [Boolean] true if file was found within time limit
+      # @raise [ExitException] if timeout
+      def wait_for_file(filename, limit=5)
+        timeout(limit) {
+          while true do
+            return true if File.exists?(filename)
+            sleep 0.25
+          end
+        }
       end
 
 

@@ -12,6 +12,9 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
 
     register_agent
 
+    # wait a few secs for it to start fully
+    wait_for_file("/opt/bixby/var/bixby-agent.pid", 5)
+
     %w(bixby.yml id_rsa server.pub).each do |f|
       f = "/opt/bixby/etc/#{f}"
       assert File.exists?(f), "#{f} exists"
@@ -26,7 +29,8 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
 
     agent_config = YAML.load_file("/opt/bixby/etc/bixby.yml")
     %w{manager_uri uuid mac_address access_key secret_key log_level}.each do |k|
-      assert_includes agent_config, k
+      assert_includes agent_config, k, "bixby.yml includes #{k}"
+      refute_empty agent_config[k], "bixby.yml key #{k} is not empty"
     end
 
     # verify host object was created
