@@ -18,10 +18,12 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
   # @return [Hash] check
   def add_check(cmd, args=nil)
 
+    # find the command
     cmd[:repo] ||= "vendor"
-    command = @commands.find{ |c| p c; c["repo"] == cmd[:repo] && c["bundle"] == cmd[:bundle] && c["command"] == cmd[:command] }
+    command = @commands.find{ |c| c["repo"] == cmd[:repo] && c["bundle"] == cmd[:bundle] && c["command"] == cmd[:command] }
     assert command
 
+    # add_check call to manager
     req = JsonRequest.new("monitoring:add_check", [@agent_id, command["id"], args])
     res = Bixby.client.exec_api(req)
     assert res
@@ -39,6 +41,7 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
 
     # check should have been written to config.json as well, verify it
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
+    sleep 0.2 # delay while the file is getting written?
     mon_config = MultiJson.load(File.read("/opt/bixby/etc/monitoring/config.json"))
     assert_kind_of Array, mon_config
     mon_config = mon_config.last
