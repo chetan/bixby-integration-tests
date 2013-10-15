@@ -22,11 +22,12 @@ echo "updating manager"
 if [ -d $current/.git ]; then
   # alreeady checked out, just pull
   cd $current
-  git reset --hard
+  #git reset --hard
   git pull
 else
   # clone
-  git clone /opt/bixby-integration/src/manager $current
+  rm -f $current
+  cp -a /opt/bixby-integration/src/manager $current
   cd $current
   cp -a /opt/bixby-integration/src/manager/.bundle .
 fi
