@@ -40,5 +40,19 @@ class Integration::Agent::BasicExec < Bixby::Test::TestCase
     assert_empty cr.stderr
   end
 
+  def test_get_agent_version
+
+    cmd = CommandSpec.new({
+      :repo    => "vendor",
+      :bundle  => "system/inventory",
+      :command => "get_agent_version.rb",
+    })
+    cr = exec(cmd)
+
+    ver = File.read(Dir.glob("/opt/bixby/embedded/lib/ruby/gems/*/gems/bixby-agent-*/VERSION").first).strip
+    refute_empty ver
+    assert_equal ver, cr.stdout.strip
+  end
+
 end
 end
