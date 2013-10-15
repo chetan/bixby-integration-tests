@@ -30,7 +30,7 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
     agent_config = YAML.load_file("/opt/bixby/etc/bixby.yml")
     %w{manager_uri uuid mac_address access_key secret_key log_level}.each do |k|
       assert_includes agent_config, k, "bixby.yml includes #{k}"
-      refute_empty agent_config[k], "bixby.yml key #{k} is not empty"
+      refute_nil agent_config[k], "bixby.yml key #{k} is not empty"
     end
 
     # verify host object was created
@@ -45,9 +45,11 @@ class Bixby::Integration::Agent::Start < Bixby::Test::TestCase
     assert_equal "bixbytest", h["hostname"]
     assert_equal "127.0.0.1", h["ip"]
     assert_equal "default", h["org"]
-    assert_equal "new", h["tags"]
     assert_nil h["alias"]
     assert_nil h["desc"]
+
+    tags = h["tags"].split(/,/)
+    assert (tags.include?("new") && tags.include?("test"))
 
     # make sure logs have correct perms safter agent start
     shell = systemu("ls -l /opt/bixby/var/bixby-agent.log* | cut -f1 -d' '")
