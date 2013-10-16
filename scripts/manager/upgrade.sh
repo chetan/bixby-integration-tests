@@ -12,32 +12,29 @@ bixby=/var/www/bixby
 shared=$bixby/shared
 current=$bixby/current
 
-sudo rm -rf /var/www/bixby
+# cleanup existing data
+sudo rm -rf $bixby/shared
 
 echo "creating $bixby"
 sudo mkdir -p $shared/log $shared/bixby $shared/pids $current
-sudo chown -R vagrant:vagrant $bixby
+sudo chown -R vagrant:vagrant $bixby/shared/
 
 echo "updating manager"
-if [ -d $current/.git ]; then
-  # alreeady checked out, just pull
+if [ ! -d $current/.git ]; then
+  # mount src dir to current
+  sudo mount --bind /opt/bixby-integration/src/manager $current
+
+  # link in shared dirs
   cd $current
-  #git reset --hard
-  git pull
-else
-  # clone
-  rm -f $current
-  cp -a /opt/bixby-integration/src/manager $current
-  cd $current
-  cp -a /opt/bixby-integration/src/manager/.bundle .
+  mkdir -p tmp
+  ln -sf $shared/pids $current/tmp/
+  ln -sf $shared/log $current/
 fi
 
-mkdir -p tmp
-ln -sf $shared/pids $current/tmp/
-ln -sf $shared/log $current/
-
-cp -a /opt/bixby-integration/src/manager/vendor/cache vendor/cache
+# bundle install
 bundle install --local > /dev/null
+
+# copy configs
 cp -a /opt/bixby-integration/manager/database.yml \
       /opt/bixby-integration/manager/bixby.yml \
       /opt/bixby-integration/manager/mongoid.yml \
@@ -47,4 +44,4 @@ cd $current
 rake db:drop >/dev/null
 rake db:create db:schema:load >/dev/null
 RAILS_ENV=staging RAILS_GROUPS=assets rake \
-  db:seed bixby:update_repos assets:clobber assets:precompile > /dev/null
+  db:seed bixby:update_repos assets:precompile > /dev/null
