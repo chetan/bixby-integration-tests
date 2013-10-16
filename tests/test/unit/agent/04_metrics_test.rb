@@ -12,6 +12,8 @@ class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
 
   def test_metrics_for_all_checks
 
+    sleep 10 # cheap hack for now; not sure how best to wait until metrics are in
+
     checks = Bixby::Model::Check.list(@agent_id)
     checks.each do |check|
 
