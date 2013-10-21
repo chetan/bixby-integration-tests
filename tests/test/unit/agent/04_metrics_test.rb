@@ -1,5 +1,6 @@
 
 require 'helper'
+require 'sidekiq'
 
 module Bixby
 class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
@@ -12,11 +13,24 @@ class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
 
   def test_metrics_for_all_checks
 
-    sleep 10 # cheap hack for now; not sure how best to wait until metrics are in
+    # wait for sidekiq jobs to flush...
+    # crude and hackish.. yech
+    ts = Time.new
+    stats = nil
+    timeout(30) {
+      while true do
+        stats = Sidekiq::Stats.new
+        if stats.queues["schedules"] == 0 && stats.processed == 11 then
+          break
+        end
+        sleep 1
+      end
+    }
 
     checks = Bixby::Model::Check.list(@agent_id)
     checks.each do |check|
 
+      p check
       metrics = Bixby::Model::Metric.list_for_check(check.host_id, check.id)
       assert metrics
       refute_empty metrics
@@ -30,6 +44,7 @@ class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
       end
 
     end
+
   end
 
 end

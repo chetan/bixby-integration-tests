@@ -126,33 +126,6 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
     wait_for_mon_daemon()
   end
 
-  # Test a direct call to update check API
-  def test_update_check_config
-
-    shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
-    ps = shell.stdout.split(/\s+/)
-    pid = ps[1]
-
-    req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
-    res = Bixby.client.exec_api(req)
-    assert res
-    assert res.success?
-
-    assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
-
-    # mon_daemon should restart
-    timeout(10) {
-      while true do
-        shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
-        next if shell.stdout.empty?
-        ps = shell.stdout.split(/\s+/)
-
-        # check for pid change
-        break if ps.last == "mon_daemon.rb" && ps.first == "bixby" && ps[1] != pid
-      end
-    }
-  end
-
   def test_add_port_check
 
     check = add_check({
@@ -227,6 +200,33 @@ class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
     assert_equal "mongod", check["args"]["command_name"]
 
     wait_for_mon_daemon()
+  end
+
+  # Test a direct call to update check API
+  def test_update_check_config
+
+    shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
+    ps = shell.stdout.split(/\s+/)
+    pid = ps[1]
+
+    req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
+    res = Bixby.client.exec_api(req)
+    assert res
+    assert res.success?
+
+    assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
+
+    # mon_daemon should restart
+    timeout(10) {
+      while true do
+        shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
+        next if shell.stdout.empty?
+        ps = shell.stdout.split(/\s+/)
+
+        # check for pid change
+        break if ps.last == "mon_daemon.rb" && ps.first == "bixby" && ps[1] != pid
+      end
+    }
   end
 
 end

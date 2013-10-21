@@ -6,9 +6,8 @@ class Bixby::Integration::Agent::Host < Bixby::Test::TestCase
 
   def test_host_metadata
 
-    stats = Sidekiq::Stats.new
-
     # wait for sidekiq to finish, for at most 15 sec
+    stats = nil
     timeout(30) {
       while true do
         stats = Sidekiq::Stats.new

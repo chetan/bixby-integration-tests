@@ -4,8 +4,8 @@ require 'helper'
 class Bixby::Integration::Agent::Register < Bixby::Test::TestCase
 
   def test_register_new_agent
-    reset_manager
     reset_agent
+    reset_manager
 
     start_manager
     wait_for_manager
