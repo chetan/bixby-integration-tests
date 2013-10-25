@@ -39,7 +39,8 @@ sudo apt-get -qq -y install git ruby rubygems libcurl4-openssl-dev libmemcache-d
   libsasl2-dev libmysqlclient-dev build-essential python-software-properties \
   libpq-dev postgresql-9.1 postgresql-client-common curl most htop vim-nox \
   gawk libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev \
-  automake libtool bison libffi-dev screen libxml2-dev libxslt1-dev
+  automake libtool bison libffi-dev screen libxml2-dev libxslt1-dev \
+  libssl-dev libfontconfig1-dev
 
 sudo add-apt-repository -y ppa:nginx/stable
 sudo add-apt-repository -y ppa:chris-lea/redis-server
