@@ -5,12 +5,6 @@ require 'sidekiq'
 module Bixby
 class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
 
-  def setup
-    super
-    @commands = Bixby::Model::Command.list
-    @start_time = Time.new
-  end
-
   def test_metrics_for_all_checks
 
     # wait for sidekiq jobs to flush...
