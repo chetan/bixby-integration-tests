@@ -33,7 +33,9 @@ module Bixby
 
       # Start the agent daemon (register with the manager)
       def register_agent
+        ENV["BIXBY_DEBUG"] = "1"
         shell = systemu("sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop --tags test -- http://localhost")
+        ENV.delete("BIXBY_DEBUG")
         assert shell.success?, "agent started successfully"
       end
 
@@ -94,6 +96,22 @@ module Bixby
           end
         }
       end
+
+      # Retry the given block for a maximum number of seconds
+      #
+      # @param [Fixnum] sec
+      # @param [Block] block
+      #
+      # @raise [ExitException] if timeout
+      def retry_for(sec, &block)
+        timeout(sec) {
+          while true
+            sleep 0.1
+            return if block.call()
+          end
+        }
+      end
+
 
 
       # HTTP Helpers

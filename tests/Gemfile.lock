@@ -37,7 +37,7 @@ GIT
       simplecov-console
 
 PATH
-  remote: ../src/client
+  remote: vendor/cache/client
   specs:
     bixby-client (0.2.2)
       api-auth
@@ -50,7 +50,7 @@ PATH
       oj
 
 PATH
-  remote: ../src/common
+  remote: vendor/cache/common
   specs:
     bixby-common (0.4.7)
       api-auth
@@ -64,8 +64,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     awesome_print (1.2.0)
+    capybara (2.1.0)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    cliver (0.2.2)
     coderay (1.0.9)
     colorize (0.6.0)
     connection_pool (1.1.0)
@@ -92,14 +99,23 @@ GEM
       little-plugger (>= 1.1.3)
       multi_json (>= 1.3.6)
     method_source (0.8.2)
+    mime-types (1.25)
     mixlib-shellout (1.2.0)
     multi_json (1.8.2)
-    oj (2.1.6)
+    nokogiri (1.5.10)
+    oj (2.1.7)
+    poltergeist (1.4.1)
+      capybara (~> 2.1.0)
+      cliver (~> 0.2.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rake (10.1.0)
     rake-hooks (1.2.3)
       rake
@@ -128,6 +144,8 @@ GEM
     slop (3.4.6)
     timers (1.1.0)
     websocket-driver (0.3.0)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
     yard (0.8.7.2)
 
 PLATFORMS
@@ -138,8 +156,10 @@ DEPENDENCIES
   awesome_print
   bixby-client!
   bixby-common!
+  capybara
   easycov!
   micron!
+  poltergeist
   pry
   rake-hooks
   sidekiq
