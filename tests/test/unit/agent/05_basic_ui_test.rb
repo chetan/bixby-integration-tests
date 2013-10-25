@@ -17,7 +17,7 @@ class Integration::Agent::BasicUI < Bixby::Test::UITestCase
 
     click_button("Login") # case sensitive
 
-    wait_for_requests(5)
+    wait_for_requests(4) # ignore gravatar request for now (external fetch, could take a while..)
 
     assert page.has_selector?("div.navbar ul.nav li.inventory.active")
   end

@@ -52,9 +52,9 @@ module Bixby
       #
       # @param [Fixnum] num               Number of requests to wait for
       # @param [Fixnum] sec               How long to wait
-      def wait_for_requests(num, sec=5)
+      def wait_for_requests(num, sec=10)
         retry_for(sec) {
-          requests.size == num && requests.find_all{ |r| r.completed?}.size == num
+          requests.size >= num && requests.find_all{ |r| r.completed?}.size >= num
         }
       end
 
