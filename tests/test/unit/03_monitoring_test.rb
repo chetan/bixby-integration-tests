@@ -2,7 +2,7 @@
 require 'helper'
 
 module Bixby
-class Integration::Agent::Monitoring < Bixby::Test::AgentTestCase
+class Integration::Monitoring < Bixby::Test::AgentTestCase
 
   def setup
     super

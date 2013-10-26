@@ -2,7 +2,7 @@
 require 'helper'
 require 'sidekiq'
 
-class Bixby::Integration::Agent::Host < Bixby::Test::TestCase
+class Bixby::Integration::Host < Bixby::Test::TestCase
 
   def test_host_metadata
 

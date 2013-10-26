@@ -2,7 +2,7 @@
 require 'helper'
 
 module Bixby
-class Integration::Agent::BasicExec < Bixby::Test::AgentTestCase
+class Integration::BasicExec < Bixby::Test::AgentTestCase
 
   def test_hello_world
     cmd = CommandSpec.new({

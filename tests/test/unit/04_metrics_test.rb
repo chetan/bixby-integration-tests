@@ -3,7 +3,7 @@ require 'helper'
 require 'sidekiq'
 
 module Bixby
-class Integration::Agent::Metrics < Bixby::Test::AgentTestCase
+class Integration::Metrics < Bixby::Test::AgentTestCase
 
   def test_metrics_for_all_checks
 
