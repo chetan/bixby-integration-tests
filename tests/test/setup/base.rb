@@ -19,6 +19,7 @@ module Bixby
       @@redir_logger = Logging.logger[Bixby]
 
       def setup
+        ENV["RAILS_ENV"] = "staging"
         ENV["BIXBY_HOME"] = "/opt/bixby"
       end
 
