@@ -11,6 +11,6 @@ if [[ -f /opt/bixby/etc ]]; then
   sudo rm -f bixby.yml id_rsa server.pub god.d/m*.god
 fi
 
-if [[ -f /opt/bixby/var ]];
+if [[ -f /opt/bixby/var ]]; then
   sudo rm -rf /opt/bixby/var/*
 fi
