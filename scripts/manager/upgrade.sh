@@ -22,6 +22,7 @@ sudo chown -R vagrant:vagrant $bixby/shared/
 echo "updating manager"
 if [ ! -d $current/.git ]; then
   # mount src dir to current
+  sudo umount -f $current
   sudo mount --bind /opt/bixby-integration/src/manager $current
 
   # link in shared dirs
