@@ -13,7 +13,8 @@ if [ -d /opt/bixby ]; then
 fi
 
 # set timezone
-echo "America/New_York" > /etc/timezone
+echo "America/New_York" > tz
+sudo mv tz /etc/timezone
 cp -a $(readlink -f /usr/share/zoneinfo/US/Eastern) /etc/localtime
 
 # make sure curl/wget work with HTTPS intercept
