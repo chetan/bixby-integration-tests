@@ -4,8 +4,8 @@
 # so instead we run shim.sh via vagrant's provisioner which in turn will
 # run this script as a non-root user (vagrant)
 
-# export http_proxy="http://192.168.80.98:8000"
-# export https_proxy="http://192.168.80.98:8001"
+export http_proxy="http://192.168.80.98:8000"
+export https_proxy="http://192.168.80.98:8001"
 
 # already been bootstrapped
 if [ -d /opt/bixby ]; then
