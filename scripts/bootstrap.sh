@@ -78,6 +78,12 @@ sudo service nginx restart
 cd /opt/bixby-integration/tests
 bundle install
 
+# install phantomjs
+cd /tmp
+wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2
+tar -xjf phantom*.bz2
+sudo cp -a phantom*/bin/phantomjs /usr/local/bin/
+rm -rf phantomjs*
 
 
 ################################################################################
@@ -88,7 +94,7 @@ echo "export RAILS_ENV=staging" >> ~/.bashrc
 
 ################################################################################
 # install and register agent
-\curl -sL https://get.bixby.io | bash -s pixelcop http://localhost
+\curl -sL https://get.bixby.io | BETA=1 bash -s pixelcop http://localhost
 
 unset http_proxy
 unset https_proxy
