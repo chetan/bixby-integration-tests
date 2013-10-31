@@ -8,4 +8,4 @@ scripts/agent/upgrade.sh
 
 cd tests
 bundle install
-micron
+bundle exec micron
