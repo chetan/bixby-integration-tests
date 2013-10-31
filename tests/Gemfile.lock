@@ -39,7 +39,7 @@ GIT
 PATH
   remote: vendor/cache/client
   specs:
-    bixby-client (0.2.2)
+    bixby-client (0.3.0)
       api-auth
       bixby-common
       curb
@@ -52,7 +52,7 @@ PATH
 PATH
   remote: vendor/cache/common
   specs:
-    bixby-common (0.4.7)
+    bixby-common (0.4.8)
       api-auth
       faye-websocket
       httpi
