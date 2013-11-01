@@ -110,5 +110,3 @@ cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
-
-/opt/bixby-integration/scripts/manager/upgrade.sh
