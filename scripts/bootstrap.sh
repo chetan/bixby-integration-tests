@@ -87,14 +87,28 @@ rm -rf phantomjs*
 
 
 ################################################################################
-# install manager
-
-echo "export RAILS_ENV=staging" >> ~/.bashrc
-/opt/bixby-integration/scripts/manager/upgrade.sh
-
-################################################################################
-# install and register agent
-\curl -sL https://get.bixby.io | BETA=1 bash -s pixelcop http://localhost
+# install agent
+\curl -sL https://get.bixby.io | BETA=1 bash -s
 
 unset http_proxy
 unset https_proxy
+
+
+################################################################################
+# install manager
+
+echo "export RAILS_ENV=staging" >> ~/.bashrc
+
+bixby=/var/www/bixby
+shared=$bixby/shared
+current=$bixby/current
+
+echo "creating $bixby"
+sudo mkdir -p $current
+sudo mount --bind /opt/bixby-integration/src/manager $current
+cd $current
+mkdir -p tmp
+ln -sf $shared/pids $current/tmp/
+ln -sf $shared/log $current/
+
+/opt/bixby-integration/scripts/manager/upgrade.sh

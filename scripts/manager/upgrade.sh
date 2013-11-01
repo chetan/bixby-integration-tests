@@ -14,25 +14,12 @@ current=$bixby/current
 
 # cleanup existing data
 sudo rm -rf $bixby/shared
-
-echo "creating $bixby"
-sudo mkdir -p $shared/log $shared/bixby $shared/pids $current
+sudo mkdir -p $shared/log $shared/bixby $shared/pids
 sudo chown -R vagrant:vagrant $bixby/shared/
 
 echo "updating manager"
-if [ ! -d $current/.git ]; then
-  # mount src dir to current
-  sudo umount -f $current
-  sudo mount --bind /opt/bixby-integration/src/manager $current
-
-  # link in shared dirs
-  cd $current
-  mkdir -p tmp
-  ln -sf $shared/pids $current/tmp/
-  ln -sf $shared/log $current/
-fi
-
-# bundle install
+cd $current
+git pull
 bundle install --local > /dev/null
 
 # copy configs
