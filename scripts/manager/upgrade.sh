@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # make sure it's stopped first
-/opt/bixby-integration/scripts/manager/stop.sh
 
 # install bixby-manager
 
