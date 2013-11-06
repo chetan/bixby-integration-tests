@@ -58,6 +58,15 @@ module Bixby
         }
       end
 
+      # Form fill helper
+      #
+      # @param [Hash] opts    Keys are selectors and values are form inputs
+      def fill(opts={})
+        opts.each do |k,v|
+          fill_in(k.to_s, :with => v)
+        end
+      end
+
     end
   end
 end

@@ -12,8 +12,10 @@ class Integration::BasicUI < Bixby::Test::UITestCase
   def test_login_to_site
     visit url()
     assert page.has_selector?('button.login')
-    fill_in("username", :with => "pixelcop")
-    fill_in("password", :with => "test")
+    fill(
+      :username => "pixelcop",
+      :password => "test"
+    )
 
     click_button("Login") # case sensitive
 
