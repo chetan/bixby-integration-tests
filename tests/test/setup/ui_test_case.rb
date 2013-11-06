@@ -52,9 +52,23 @@ module Bixby
       #
       # @param [Fixnum] num               Number of requests to wait for
       # @param [Fixnum] sec               How long to wait
+      #
+      # @raise [ExitException] if timeout
       def wait_for_requests(num, sec=10)
         retry_for(sec) {
           requests.size >= num && requests.find_all{ |r| r.completed?}.size >= num
+        }
+      end
+
+      # Wait for the given application state
+      #
+      # @param [String] state       name of state to wait for
+      # @param [Fixnum] sec         How long to wait, in seconds (default: 10)
+      #
+      # @raise [ExitException] if timeout
+      def wait_for_state(state, sec=10)
+        retry_for(sec) {
+          state == evaluate_script("Bixby.app.current_state.name")
         }
       end
 
