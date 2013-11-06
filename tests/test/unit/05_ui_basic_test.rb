@@ -2,7 +2,7 @@
 require 'helper'
 
 module Bixby
-class Integration::BasicUI < Bixby::Test::UITestCase
+class Integration::UI::Basic < Bixby::Test::UITestCase
 
   def test_login_page_loads
     visit url()

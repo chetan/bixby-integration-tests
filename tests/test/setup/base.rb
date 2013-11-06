@@ -178,6 +178,9 @@ module Bixby
 
     module Repo
     end
+
+    module UI
+    end
   end
 
 end # Bixby

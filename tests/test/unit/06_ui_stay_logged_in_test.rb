@@ -2,7 +2,7 @@
 require 'helper'
 
 module Bixby
-class Integration::StayLoggedIn < Bixby::Test::LoggedInUITestCase
+class Integration::UI::StayLoggedIn < Bixby::Test::LoggedInUITestCase
 
   def test_login_to_site
     login()
