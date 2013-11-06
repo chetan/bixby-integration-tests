@@ -72,6 +72,20 @@ module Bixby
         }
       end
 
+      # Disable Capybara waits for the given block
+      def no_wait(&block)
+        Capybara.using_wait_time(0, &block)
+      end
+
+      # A version of has_selector? which returns immediately (does not wait for
+      # items to appear or disappear)
+      #
+      # @param [String] selector      to pass to has_selector?
+      def has_selector_i?(selector)
+        no_wait { has_selector?(selector) }
+      end
+
+
       # Form fill helper
       #
       # @param [Hash] opts    Keys are selectors and values are form inputs
