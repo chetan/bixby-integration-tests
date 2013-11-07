@@ -14,10 +14,8 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
     assert host
 
     # add 'new' tag if doesn't exist (helpful for re-running this test)
-    tags = host.tags.split(/,/)
-    if !tags.include? "new" then
-      tags << "new"
-      Bixby::Model::Host.update(1, {:tags => tags.join(",")})
+    if !host.tags.split(/,/).include? "new" then
+      Bixby::Model::Host.update(1, {:tags => "test,new"})
       host = Bixby::Model::Host.find(1)
       assert_includes host.tags.split(/,/), "new", "should now include #new tag"
     end
@@ -80,6 +78,47 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
     assert new_uptime
     refute_equal old_uptime, new_uptime
     assert new_uptime > old_uptime
+  end
+
+  def test_edit_host_data
+
+    refute_selector_i "div.host button.edit"
+    find("div.host div.body").hover
+    assert_selector_i "div.host button.edit"
+
+    click_button("edit")
+    assert_selector "div.host_editor"
+
+    i = Random.rand(1000)
+    fill(
+      :Alias       => "hostalias-#{i}",
+      :Description => "hostdesc-#{i}"
+    )
+
+    # enter new tag
+    page.execute_script('$("li.select2-search-field").mousedown()')
+    page.execute_script("$('input.select2-input').val('hosttag-#{i},')")
+    page.execute_script("$('input.select2-input').trigger('keyup-change')")
+    retry_for(1) {
+      # wait for list to get updated
+      2 == page.all("ul.select2-choices li.select2-search-choice").size
+    }
+
+    click_button("Save")
+    refute_selector "div.host_editor" # should disappear
+
+    # verify data got updated on backend
+    host = nil
+    retry_for(3) {
+      host = Bixby::Model::Host.find(1)
+      "hostalias-#{i}" == host[:alias]
+    }
+    assert_equal "hostalias-#{i}", host[:alias]
+    assert_equal "hostdesc-#{i}", host[:desc]
+
+    tags = host[:tags].split(/,/)
+    assert_includes tags, "test"
+    assert_includes tags, "hosttag-#{i}"
   end
 
 
