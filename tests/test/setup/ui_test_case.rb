@@ -84,6 +84,7 @@ module Bixby
         super
         Capybara.reset_sessions!
         Capybara.use_default_driver
+        Capybara.ignore_hidden_elements = true
       end
 
       # Create a URL to the given path
@@ -137,6 +138,21 @@ module Bixby
         no_wait { has_selector?(selector) }
       end
 
+      def assert_selector(selector)
+        assert has_selector?(selector), "Expected selector '#{selector}' to exist within #{Capybara.default_wait_time} sec"
+      end
+
+      def assert_selector_i(selector)
+        assert has_selector_i?(selector), "Expected selector '#{selector}' to exist (immediately)"
+      end
+
+      def refute_selector(selector)
+        assert has_no_selector?(selector), "Did not expect selector '#{selector}' to exist after #{Capybara.default_wait_time} sec"
+      end
+
+      def refute_selector_i(selector)
+        refute has_selector_i?(selector), "Did not expect '#{selector}' to exist"
+      end
 
       # Form fill helper
       #

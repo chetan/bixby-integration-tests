@@ -5,6 +5,7 @@ module Bixby
 
       def teardown
         # don't reset capybara sessions anymore (by not calling super)
+        Capybara.ignore_hidden_elements = true
       end
 
       # Simply login to the site
