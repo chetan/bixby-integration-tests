@@ -119,6 +119,11 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
     tags = host[:tags].split(/,/)
     assert_includes tags, "test"
     assert_includes tags, "hosttag-#{i}"
+
+    # verify in UI
+    assert page.find("h3").text =~ /hostalias-#{i}/
+    assert page.find("blockquote.desc").text =~ /hostdesc-#{i}/
+    assert page.all("a.tag").first.text == "#hosttag-#{i}"
   end
 
 
