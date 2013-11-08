@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# make sure stopped before upgrade
-/opt/bixby-integration/scripts/agent/stop.sh
-
 shim=/opt/bixby-integration/scripts/agent-shim
 
 # upgrade bundler if needed

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# make sure it's stopped first
-
 # install bixby-manager
 
 source $HOME/.rvm/scripts/rvm
