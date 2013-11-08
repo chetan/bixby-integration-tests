@@ -19,6 +19,10 @@ module Bixby
 
       # Simply login to the site
       def login
+
+        # disable logging in for this step so we don't spew to stdout
+        page.driver.client.phantomjs_logger = nil
+
         visit url()
         wait_for_state("login")
         assert has_selector?('button.login')

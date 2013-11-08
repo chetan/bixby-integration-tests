@@ -17,10 +17,5 @@ class Integration::UI::StayLoggedIn < Bixby::Test::LoggedInUITestCase
     assert has_selector?("div.navbar ul.nav li.inventory.active")
   end
 
-  def test_cleanup
-    # temp workaround
-    Capybara.reset_sessions!
-  end
-
 end
 end

@@ -1,69 +1,6 @@
 
-require "capybara"
-require "capybara/poltergeist"
-Capybara.default_driver = :poltergeist
-Capybara.javascript_driver = :poltergeist
-Capybara.default_wait_time = 5
-
-Capybara.register_driver :poltergeist do |app|
-  opts = {
-    # :logger           => $stdout,
-    :phantomjs_logger => $stdout,
-  }
-  Capybara::Poltergeist::Driver.new(app, opts)
-end
-
-
-class Capybara::Poltergeist::NetworkTraffic::Request
-  def completed?
-    return false if response_parts.empty?
-    response_parts.last.data["stage"] == "end"
-  end
-end
-
-class Capybara::Poltergeist::NetworkTraffic::Response
-  attr_reader :data
-end
-
-class ConsoleFilter
-
-  def initialize(real_out, filter=true)
-    @real_out = real_out
-    @filter = filter
-    @buffer = StringIO.new
-  end
-
-  def write(data)
-
-    if !@filter then
-      @real_out.write(data)
-      return
-    end
-
-    # get previous buffer (partial line)
-    b = @buffer.read
-    @buffer.rewind
-    if not b.empty? then
-      data = b + data
-    end
-
-    # read lines from data
-    buff = StringIO.new(data)
-    lines = buff.readlines
-    if lines then
-      if lines.last !~ /\n$/ then
-        # store partial lines for next write
-        @buffer.write(lines.pop)
-      end
-      lines.each{ |line|
-        if line =~ /^\[netlog\]/ then
-          @real_out.puts(line)
-        end
-      }
-    end
-
-  end
-end
+require "setup/util/capybara"
+require "setup/util/netlog_console_filter"
 
 module Bixby
   module Test
@@ -75,9 +12,10 @@ module Bixby
         super
         # make sure the logger gets updated to the correct object on each test run
         # since Micron will replace $stdout/$stderr before each method is run
-        console_filter = ConsoleFilter.new($stdout, true)
-        page.driver.client.phantomjs_logger = console_filter if page.driver.client.phantomjs_logger
-        page.driver.browser.logger = out if page.driver.browser.logger
+        out = $stdout
+        console_filter = NetLogConsoleFilter.new(out)
+        page.driver.client.phantomjs_logger = console_filter
+        # page.driver.browser.logger = out # uncomment to debug poltergeist internals
       end
 
       def teardown
