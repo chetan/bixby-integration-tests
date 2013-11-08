@@ -17,10 +17,10 @@ GIT
 
 GIT
   remote: git://github.com/chetan/micron.git
-  revision: 9600a3bcd636ec2ff8ff27b27ea589cf180720e4
+  revision: 8ae3c3d05cca0875bf9f31b616b342a73a01948c
   specs:
     micron (0.5.0)
-      colorize
+      ansi
       easycov
       hitimes
 
@@ -74,6 +74,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    ansi (1.4.3)
     awesome_print (1.2.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
