@@ -9,6 +9,9 @@ Capybara.register_driver :poltergeist do |app|
   opts = {
     # :logger           => $stdout,
     :phantomjs_logger => $stdout,
+    :extensions => [
+      File.expand_path("../../../support/test_canvas.js", __FILE__)
+    ]
   }
   Capybara::Poltergeist::Driver.new(app, opts)
 end
