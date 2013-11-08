@@ -8,10 +8,6 @@ module Bixby
         self.new.login()
       end
 
-      def self.after_class
-        Capybara.current_session.reset!
-      end
-
       def teardown
         # don't reset capybara sessions after each run anymore (by not calling super)
         Capybara.ignore_hidden_elements = true
@@ -21,7 +17,7 @@ module Bixby
       def login
 
         # disable logging in for this step so we don't spew to stdout
-        page.driver.client.phantomjs_logger = nil
+        page.driver.client.phantomjs_logger = NetLogConsoleFilter.new
 
         visit url()
         wait_for_state("login")

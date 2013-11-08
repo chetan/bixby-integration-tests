@@ -1,29 +1,17 @@
 
 require "setup/util/capybara"
 require "setup/util/netlog_console_filter"
+require "setup/util/poltergeist_reporter"
+require "setup/util/poltergeist_test_case"
+
+Micron.runner.reporters << Micron::Reporter::Poltergeist.new
 
 module Bixby
   module Test
     class UITestCase < TestCase
 
       include Capybara::DSL
-
-      def setup
-        super
-        # make sure the logger gets updated to the correct object on each test run
-        # since Micron will replace $stdout/$stderr before each method is run
-        out = $stdout
-        console_filter = NetLogConsoleFilter.new(out)
-        page.driver.client.phantomjs_logger = console_filter
-        # page.driver.browser.logger = out # uncomment to debug poltergeist internals
-      end
-
-      def teardown
-        super
-        Capybara.reset_sessions!
-        Capybara.use_default_driver
-        Capybara.ignore_hidden_elements = true
-      end
+      include Micron::TestCase::Poltergeist
 
       # Create a URL to the given path
       #

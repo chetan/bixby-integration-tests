@@ -1,18 +1,13 @@
 
 class NetLogConsoleFilter
 
-  def initialize(real_out, filter=true)
-    @real_out = real_out
-    @filter = filter
+  def initialize
     @buffer = StringIO.new
+    @netlog = []
+    @console = []
   end
 
   def write(data)
-
-    if !@filter then
-      @real_out.write(data)
-      return
-    end
 
     # get previous buffer (partial line)
     b = @buffer.read
@@ -31,11 +26,22 @@ class NetLogConsoleFilter
       end
       lines.each{ |line|
         if line =~ /^\[netlog\]/ then
-          @real_out.puts(line)
+          @netlog << line
+        else
+          @console << line
         end
       }
     end
 
+  end # write
+
+  def netlog
+    @netlog.join("")
   end
+
+  def console
+    @console.join("")
+  end
+
 end
 
