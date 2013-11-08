@@ -19,7 +19,7 @@ module Bixby
       @@redir_logger = Logging.logger[Bixby]
 
       def setup
-        ENV["RAILS_ENV"] = "staging"
+        ENV["RAILS_ENV"] = "integration"
         ENV["BIXBY_HOME"] = "/opt/bixby"
       end
 
@@ -50,7 +50,7 @@ module Bixby
 
       # Start the manager (via god)
       def start_manager
-        shell = systemu("sudo RAILS_ENV=staging god -c /var/www/bixby/current/config/deploy/bixby.god")
+        shell = systemu("sudo RAILS_ENV=integration god -c /var/www/bixby/current/config/deploy/bixby.god")
         assert shell.success?, "manager started successfully"
       end
 

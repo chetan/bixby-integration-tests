@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # stop manager, cleanup databases
-sudo RAILS_ENV=staging god terminate
+sudo RAILS_ENV=integration god terminate
 sudo pkill -9 -u 0 -U 0 -f god
 pkill -9 -f sidekiq
 pkill -9 -f puma

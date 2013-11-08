@@ -1,5 +1,5 @@
 
-staging:
+integration:
   adapter: postgresql
   database: bixby
   pool: 5

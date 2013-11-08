@@ -2,18 +2,14 @@
 
 ROOT_PATH = File.expand_path('..', __FILE__)
 
-ENV["RAILS_ENV"] = "staging"
+ENV["RAILS_ENV"] = "integration"
 ENV["BUNDLE_GEMFILE"] = File.join(ROOT_PATH, "Gemfile")
 
 require 'rake'
 
 Dir['lib/tasks/**/*.rake'].each { |rake| load rake }
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/unit/**/test_*.rb'
-  test.verbose = true
+require "micron/rake"
+Micron::Rake.new do |task|
 end
-
 task :default => :test

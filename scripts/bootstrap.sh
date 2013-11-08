@@ -97,7 +97,7 @@ unset https_proxy
 ################################################################################
 # install manager
 
-echo "export RAILS_ENV=staging" >> ~/.bashrc
+echo "export RAILS_ENV=integration" >> ~/.bashrc
 
 bixby=/var/www/bixby
 shared=$bixby/shared

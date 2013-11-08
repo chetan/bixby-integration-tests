@@ -1,5 +1,5 @@
 
-staging:
+integration:
   sessions:
     default:
       database: bixby_metrics_development

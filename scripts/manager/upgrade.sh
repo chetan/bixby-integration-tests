@@ -5,7 +5,7 @@
 # install bixby-manager
 
 source $HOME/.rvm/scripts/rvm
-export RAILS_ENV=staging
+export RAILS_ENV=integration
 
 bixby=/var/www/bixby
 shared=$bixby/shared
@@ -30,5 +30,5 @@ cp -a /opt/bixby-integration/manager/database.yml \
 cd $current
 rake db:drop >/dev/null
 rake db:create db:schema:load >/dev/null
-RAILS_ENV=staging RAILS_GROUPS=assets rake \
+RAILS_ENV=integration RAILS_GROUPS=assets rake \
   db:seed bixby:update_repos assets:precompile > /dev/null

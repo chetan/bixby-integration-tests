@@ -1,5 +1,5 @@
 
-staging:
+integration:
   secret_token: "foobar"
   default_tenant: "pixelcop"
   default_tenant_pw: "test"
