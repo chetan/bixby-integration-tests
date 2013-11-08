@@ -3,8 +3,17 @@ module Bixby
   module Test
     class LoggedInUITestCase < UITestCase
 
+      def self.before_class
+        # login at the start of each class
+        self.new.login()
+      end
+
+      def self.after_class
+        Capybara.current_session.reset!
+      end
+
       def teardown
-        # don't reset capybara sessions anymore (by not calling super)
+        # don't reset capybara sessions after each run anymore (by not calling super)
         Capybara.ignore_hidden_elements = true
       end
 
@@ -17,12 +26,8 @@ module Bixby
           :username => "pixelcop",
           :password => "test"
         )
-
         click_button("Login") # case sensitive
         wait_for_state("inventory")
-
-        # look for navbar inventory tab
-        assert has_selector?("div.navbar ul.nav li.inventory.active")
       end
 
     end

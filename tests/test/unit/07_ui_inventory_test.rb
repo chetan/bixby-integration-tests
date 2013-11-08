@@ -4,10 +4,6 @@ require 'helper'
 module Bixby
 class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
-  def test_login_to_site
-    login()
-  end
-
   def test_approve_host
 
     host = Bixby::Model::Host.find(1)

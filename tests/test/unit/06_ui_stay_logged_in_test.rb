@@ -4,10 +4,6 @@ require 'helper'
 module Bixby
 class Integration::UI::StayLoggedIn < Bixby::Test::LoggedInUITestCase
 
-  def test_login_to_site
-    login()
-  end
-
   def test_still_logged_in
     visit url()
     wait_for_state("inventory")
