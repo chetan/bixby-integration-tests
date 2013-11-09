@@ -8,7 +8,7 @@ module Micron
           super
           # clean up after every class is run and force a new poltergeist instance
           Capybara.reset_sessions!
-          Capybara.current_session.driver.restart
+          # Capybara.current_session.driver.restart
         end
       end
 
