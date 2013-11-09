@@ -47,7 +47,9 @@ module Bixby
       # @raise [ExitException] if timeout
       def wait_for_state(state, sec=10)
         retry_for(sec) {
-          state == evaluate_script("Bixby.app.current_state.name")
+          curr_state = evaluate_script("Bixby.app.current_state.name")
+          # puts "want state=#{state}; curr_state=#{curr_state}"
+          state == curr_state
         }
       end
 

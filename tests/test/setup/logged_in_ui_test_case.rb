@@ -16,7 +16,9 @@ module Bixby
       # Simply login to the site
       def login
 
-        # disable logging in for this step so we don't spew to stdout
+        # disable logging in for this step so we don't spew to stdout (since before_class methods aren't captured)
+        # out = $stdout
+        # page.driver.client.phantomjs_logger = out
         page.driver.client.phantomjs_logger = NetLogConsoleFilter.new
 
         visit url()
