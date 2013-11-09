@@ -5,13 +5,13 @@ require 'awesome_print'
 module Bixby
 class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
-  def test_view_monitoring_for_host
+  def test_verify_all_metric_graphs_for_host
 
     visit url()
     assert_selector_i "div.host_list div.host div.actions a.monitoring"
     find("div.host_list div.host div.actions a.monitoring").click
 
-    wait_for_state("mon_view_host", 30)
+    wait_for_state("mon_view_host", 60) # really slow right now.. need to speed up mongo driver or switch to kairos
 
     assert find("h3").text =~ /Resources for bixbytest/
 
@@ -24,8 +24,6 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
       assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.graph_container div.graph canvas"
       assert page.evaluate_script("testGraphs(#{check.id});")
     end
-
-    flunk
   end
 
 end
