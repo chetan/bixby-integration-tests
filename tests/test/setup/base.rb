@@ -2,8 +2,10 @@
 require 'bixby-client'
 require 'bixby-client/patch/shellout'
 
-require 'httpi'
+require 'timeout'
+
 require 'micron/test_case/redir_logging'
+require 'httpi'
 require 'mixlib/shellout'
 require 'multi_json'
 
@@ -12,8 +14,6 @@ require 'multi_json'
 module Bixby
   module Test
     class TestCase < Micron::TestCase
-
-      include Timeout
 
       include Micron::TestCase::RedirLogging
       @@redir_logger = Logging.logger[Bixby]
@@ -24,6 +24,16 @@ module Bixby
       end
 
       def teardown
+      end
+
+      def timeout(sec, &block)
+        begin
+          Timeout.timeout(sec) {
+            yield
+          }
+        rescue Timeout::Error => ex
+          raise Micron::Assertion, "execution expired (#{sec} sec)", ex.backtrace
+        end
       end
 
       # Reset agent state, but do not start
