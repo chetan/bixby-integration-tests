@@ -11,10 +11,12 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
     # crude and hackish.. yech
     ts = Time.new
     stats = nil
-    timeout(30) {
+    timeout(65) {
       while true do
         stats = Sidekiq::Stats.new
-        if stats.queues["schedules"] == 0 && stats.processed == 11 then
+        puts "queued = #{stats.queues['schedules']}"
+        puts "processed = #{stats.processed}"
+        if stats.queues["schedules"] == 0 && stats.processed >= 11 then
           break
         end
         sleep 1
@@ -27,7 +29,7 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
       p check
       metrics = Bixby::Model::Metric.list_for_check(check.host_id, check.id)
       assert metrics
-      refute_empty metrics
+      refute_empty metrics, "have metrics for check (#{check.name})"
       metrics.each do |metric|
         p metric
         assert metric
