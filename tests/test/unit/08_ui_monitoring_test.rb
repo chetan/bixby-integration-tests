@@ -26,5 +26,19 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     end
   end
 
+  def test_view_metric_detail
+    find("div.check[check_id='1'] div.metric[metric_id='1'] a.metric").click
+    wait_for_state("mon_hosts_resources_metric")
+
+    # test to see if more data was loaded
+    retry_for(5) {
+      requests.last.url =~ /downsample=5m-avg/ && !requests.last.response_parts.empty?
+    }
+    assert_equal 200, requests.last.response_parts.last.status
+
+    # graph is displayed
+    assert_selector_i "div.metric.detail[metric_id='1'] div.graph canvas"
+  end
+
 end
 end
