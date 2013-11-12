@@ -105,7 +105,8 @@ current=$bixby/current
 
 echo "creating $bixby"
 sudo mkdir -p $current
-sudo mount --bind /opt/bixby-integration/src/manager $current
+echo "/opt/bixby-integration/src/manager  /var/www/bixby/current   none   defaults,bind  0 0" | cat /etc/fstab - | sudo tee /etc/fstab > /dev/null
+sudo mount -a
 cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
