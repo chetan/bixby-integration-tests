@@ -13,6 +13,11 @@ module Bixby
       include Capybara::DSL
       include Micron::TestCase::Poltergeist
 
+      def setup
+        super
+        Capybara.default_wait_time = 10
+      end
+
       # Create a URL to the given path
       #
       # @param [String] path
