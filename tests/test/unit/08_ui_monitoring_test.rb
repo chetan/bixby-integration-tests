@@ -1,5 +1,6 @@
 
 require 'helper'
+
 require 'awesome_print'
 
 module Bixby
@@ -43,6 +44,44 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     # graph is displayed
     assert_selector_i "div.metric.detail[metric_id='1'] div.graph canvas"
   end
+
+  def test_reset_checks
+    Bixby::Model::Check.list(1).each do |check|
+      assert Bixby::Model::Check.destroy(check.id)
+    end
+    assert_empty Bixby::Model::Check.list(1)
+
+    Bixby::Monitoring.update_check_config(1)
+
+    visit url("/monitoring/hosts/1")
+    wait_for_state("mon_view_host")
+
+    assert find("div.monitoring_content").text.include? "No checks have been configured"
+  end
+
+
+  ##############################################################################
+  # Test adding each check
+
+  def test_add_cpu_load
+    visit url("/monitoring/hosts/1/checks/new")
+    wait_for_state("mon_hosts_resources_new")
+
+    find("tr[title='cpu_load.rb'] input[type='checkbox']").click
+    find("a#submit_check").click
+
+    wait_for_state("mon_hosts_resources_new_opts")
+    assert_equal "no options", find("div.command_opts div").text.strip
+
+    find("a#submit_check").click
+    wait_for_state("mon_view_host")
+    refute_empty Bixby::Model::Check.list(1)
+    assert_selector_i "div.check h4"
+    assert_equal "CPU Load Average", find("div.check h4").text.strip
+
+    # metrics should start appearing now... shortly
+  end
+
 
 end
 end
