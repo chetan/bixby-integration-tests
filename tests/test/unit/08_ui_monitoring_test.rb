@@ -72,8 +72,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_conn_count
-    check_id = add_check_command(3, {:port => "80"}, "Network Connections by Type")
-    assert_equal "PORT = 80", find("div.check[check_id='#{check_id}'] h5").text.strip
+    add_check_command(3, {:port => "80"}, "Network Connections by Type", "PORT = 80")
   end
 
 
@@ -85,9 +84,10 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   # @param [Fixnum] id          Command ID
   # @param [Hash] opts          if nil, then no options are available
   # @param [String] check_name
+  # @param [String] args        text which displays args in metrics info
   #
   # @return [Fixnum] ID of new check
-  def add_check_command(id, opts, check_name)
+  def add_check_command(id, opts, check_name, args=nil)
     visit url("/monitoring/hosts/1/checks/new")
     wait_for_state("mon_hosts_resources_new")
 
@@ -101,15 +101,19 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
       fill(opts)
     end
 
-    check_id = submit_options_and_verify(check_name)
+    check_id = submit_options_and_verify(check_name, args)
   end
 
-  def submit_options_and_verify(name)
+  def submit_options_and_verify(name, args=nil)
     find("a#submit_check").click
     wait_for_state("mon_view_host")
 
     checks = Bixby::Model::Check.list(1)
     assert_equal name, find("div.check[check_id='#{checks.last.id}'] h4").text.strip
+
+    if not args.nil? then
+      assert_equal args, find("div.check[check_id='#{checks.last.id}'] h5").text.strip
+    end
 
     return checks.last.id
   end
