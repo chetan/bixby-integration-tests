@@ -64,22 +64,54 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   # Test adding each check
 
   def test_add_cpu_load
+    add_check_command(1, nil, "CPU Load Average")
+  end
+
+  def test_add_cpu_usage
+    add_check_command(2, nil, "CPU Usage")
+  end
+
+  def test_add_conn_count
+    check_id = add_check_command(3, {:port => "80"}, "Network Connections by Type")
+    assert_equal "PORT = 80", find("div.check[check_id='#{check_id}'] h5").text.strip
+  end
+
+
+  private
+
+
+  # Start monitoring the given check
+  #
+  # @param [Fixnum] id          Command ID
+  # @param [Hash] opts          if nil, then no options are available
+  # @param [String] check_name
+  #
+  # @return [Fixnum] ID of new check
+  def add_check_command(id, opts, check_name)
     visit url("/monitoring/hosts/1/checks/new")
     wait_for_state("mon_hosts_resources_new")
 
-    find("tr[title='cpu_load.rb'] input[type='checkbox']").click
+    page.all("label[for='command_id_#{id}']").first.click
     find("a#submit_check").click
-
     wait_for_state("mon_hosts_resources_new_opts")
-    assert_equal "no options", find("div.command_opts div").text.strip
 
+    if opts.nil? then
+      assert_equal "no options", find("div.command_opts div").text.strip
+    else
+      fill(opts)
+    end
+
+    check_id = submit_options_and_verify(check_name)
+  end
+
+  def submit_options_and_verify(name)
     find("a#submit_check").click
     wait_for_state("mon_view_host")
-    refute_empty Bixby::Model::Check.list(1)
-    assert_selector_i "div.check h4"
-    assert_equal "CPU Load Average", find("div.check h4").text.strip
 
-    # metrics should start appearing now... shortly
+    checks = Bixby::Model::Check.list(1)
+    assert_equal name, find("div.check[check_id='#{checks.last.id}'] h4").text.strip
+
+    return checks.last.id
   end
 
 
