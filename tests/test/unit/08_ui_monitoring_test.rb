@@ -71,8 +71,40 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     add_check_command(2, nil, "CPU Usage")
   end
 
-  def test_add_conn_count
+  def test_add_net_conn_count
     add_check_command(3, {:port => "80"}, "Network Connections by Type", "PORT = 80")
+  end
+
+  def test_add_net_conn_state
+    add_check_command(4, nil, "Network Connections by State")
+  end
+
+  def test_add_ping
+    add_check_command(5, {:host => "localhost"}, "Ping Test", "HOST = LOCALHOST")
+  end
+
+  def test_add_port_check
+    add_check_command(6, {:port => 80}, "Port Check", "PORT = 80")
+    add_check_command(6, {:port => "localhost:80"}, "Port Check", "PORT = LOCALHOST:80")
+  end
+
+  def test_add_disk_usage
+    add_check_command(7, nil, "Disk Usage", "MOUNT = /") do
+      select("/", :from => "mount")
+    end
+    add_check_command(7, nil, "Disk Usage", "MOUNT = /BOOT") do
+      select("/boot", :from => "mount")
+    end
+  end
+
+  def test_add_inode_usage
+    add_check_command(8, nil, "inode Usage", "DEVICE = /DEV/SDA1") do
+      select("/dev/sda1", :from => "device")
+    end
+  end
+
+  def test_add_process_memory_usage
+    add_check_command(10, {:command_name => "mongod"}, "Process Memory Usage", "COMMAND_NAME = MONGOD, PS_COMMAND = , PS_REGEX = , ALERT_WHEN_COMMAND_NOT_FOUND =")
   end
 
 
@@ -95,7 +127,13 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     find("a#submit_check").click
     wait_for_state("mon_hosts_resources_new_opts")
 
-    if opts.nil? then
+    # h4 label
+    assert_equal check_name, find("div.command_opts h4").text.strip
+
+    # fill options or verify that no options are avail
+    if block_given? then
+      yield
+    elsif opts.nil? then
       assert_equal "no options", find("div.command_opts div").text.strip
     else
       fill(opts)
