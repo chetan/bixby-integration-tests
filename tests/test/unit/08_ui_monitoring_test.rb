@@ -17,9 +17,9 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     assert find("h3").text =~ /Resources for bixbytest/
 
     checks = Bixby::Model::Check.list(1)
-    ap checks
 
     checks.each do |check|
+      ap check
       assert_selector_i "div.check[check_id='#{check.id}']"
       assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.graph_container div.graph"
       assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.graph_container div.graph canvas"
