@@ -98,7 +98,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_inode_usage
-    add_check_command(8, nil, "inode Usage", "DEVICE = /") do
+    add_check_command(8, nil, "inode Usage", "MOUNT = /") do
       select("/", :from => "mount")
     end
   end
