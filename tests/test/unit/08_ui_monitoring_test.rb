@@ -104,7 +104,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_process_memory_usage
-    add_check_command(10, {:command_name => "mongod"}, "Process Memory Usage", "COMMAND_NAME = MONGOD, PS_COMMAND = , PS_REGEX = , ALERT_WHEN_COMMAND_NOT_FOUND =")
+    add_check_command(10, {:command_name => "mongod"}, "Process Memory Usage", "COMMAND_NAME = MONGOD")
   end
 
 
