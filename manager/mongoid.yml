@@ -7,4 +7,3 @@ integration:
         - localhost:27017
       options:
   options:
-    identity_map_enabled: false
