@@ -8,36 +8,33 @@ shim=/opt/bixby-integration/scripts/agent-shim
 # uninstall previous gem
 echo "* uninstall existing bixby gems"
 for proj in agent client common; do
-  yes | sudo $shim gem uninstall bixby-$proj -axq
+  yes | sudo $shim gem uninstall bixby-$proj -axq > /dev/null
 done
 
 for proj in common client agent; do
-  echo
   echo "* updating $proj"
-  echo
   cd /opt/bixby-integration/src/$proj
   # git reset --hard
-  git pull
+  git pull -q
 
   rm -rf pkg *.gem
   # $shim bundle install --without development test
-  gem build *.gemspec
-  sudo $shim gem install *.gem --no-ri --no-rdoc --local
+  gem build *.gemspec >/dev/null
+  sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
 done
 
 # properly install runtime deps from git
 # currently only api-auth is from git
 echo
 echo "* installing api-auth"
-echo
 cd /opt/bixby-integration/src
 if [ ! -d api_auth ]; then
   git clone https://github.com/chetan/api_auth.git
 fi
 cd api_auth
-git checkout bixby
-git reset --hard
-git pull
+git checkout -q bixby
+git reset --hard -q
+git pull -q
 rm -rf pkg *.gem
-gem build *.gemspec
-sudo $shim gem install *.gem --no-ri --no-rdoc --local
+gem build *.gemspec >/dev/null
+sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
