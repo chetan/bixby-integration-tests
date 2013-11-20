@@ -12,7 +12,7 @@ class Bixby::Integration::Host < Bixby::Test::TestCase
       while true do
         stats = Sidekiq::Stats.new
         puts stats.processed
-        if stats.processed == 1 || stats.failed > 0 ||
+        if stats.processed == 2 || stats.failed > 0 ||
             stats.retry_size > 0 then
 
           break
@@ -25,7 +25,7 @@ class Bixby::Integration::Host < Bixby::Test::TestCase
     assert_equal 0, stats.queues["schedules"], msg
     assert_equal 0, stats.retry_size, msg
     assert_equal 0, stats.failed, msg
-    assert_equal 1, stats.processed, msg
+    assert_equal 2, stats.processed, msg
 
     hosts = Bixby::Model::Host.list
     assert hosts
