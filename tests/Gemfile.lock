@@ -50,7 +50,7 @@ GIT
 PATH
   remote: vendor/cache/client
   specs:
-    bixby-client (0.3.0)
+    bixby-client (0.4.0)
       api-auth
       bixby-common
       curb
@@ -117,7 +117,7 @@ GEM
     multi_json (1.8.2)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
-    oj (2.1.7)
+    oj (2.2.2)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
