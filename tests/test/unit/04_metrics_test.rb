@@ -16,7 +16,7 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
         stats = Sidekiq::Stats.new
         puts "queued = #{stats.queues['schedules']}"
         puts "processed = #{stats.processed}"
-        if stats.queues["schedules"] == 0 && stats.processed >= 11 then
+        if stats.queues["schedules"] == 0 && stats.processed >= 12 then
           break
         end
         sleep 1
