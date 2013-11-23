@@ -7,6 +7,9 @@
 export http_proxy="http://192.168.80.98:8000"
 export https_proxy="http://192.168.80.98:8001"
 
+# make sure bind mount is up
+sudo mount -a
+
 # already been bootstrapped
 if [ -d /opt/bixby ]; then
   exit
