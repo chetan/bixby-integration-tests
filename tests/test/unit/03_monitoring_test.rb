@@ -61,7 +61,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
         next if shell.stdout.empty?
         ps = shell.stdout.split(/\s+/)
 
-        break if ps.last == "mon_daemon.rb" && ps.first == "bixby"
+        break if ps.last == "bixby-monitoring-daemon" && ps.first == "bixby"
       end
     }
   end
@@ -205,7 +205,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
   # Test a direct call to update check API
   def test_update_check_config
 
-    shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
+    shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
     ps = shell.stdout.split(/\s+/)
     pid = ps[1]
 
@@ -219,12 +219,12 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     # mon_daemon should restart
     timeout(10) {
       while true do
-        shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
+        shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
         next if shell.stdout.empty?
         ps = shell.stdout.split(/\s+/)
 
         # check for pid change
-        break if ps.last == "mon_daemon.rb" && ps.first == "bixby" && ps[1] != pid
+        break if ps.last == "bixby-monitoring-daemon" && ps.first == "bixby" && ps[1] != pid
       end
     }
   end
