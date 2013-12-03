@@ -44,10 +44,9 @@ module Bixby
 
       # Start the agent daemon (register with the manager)
       def register_agent
-        ENV["BIXBY_DEBUG"] = "1"
         shell = systemu("sudo /opt/bixby/bin/bixby-agent -P test -t pixelcop --tags test -- http://localhost")
-        ENV.delete("BIXBY_DEBUG")
         assert shell.success?, "agent started successfully"
+        systemu("sudo /etc/init.d/bixby start") # start bixby god
       end
 
       # Reset the manager state, but do not start

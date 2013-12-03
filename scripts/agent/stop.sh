@@ -8,7 +8,7 @@ sudo pkill -9 -f mon_daemon
 
 if [[ -d /opt/bixby/etc ]]; then
   cd /opt/bixby/etc
-  sudo rm -f bixby.yml id_rsa server.pub god.d/m*.god
+  sudo rm -f bixby.yml id_rsa server.pub god.d/bixby-monitoring.god
   sudo rm -rf monitoring
 fi
 
