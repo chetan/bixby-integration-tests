@@ -57,7 +57,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
   def wait_for_mon_daemon
     timeout(10) {
       while true do
-        shell = systemu("ps auxw | grep -v grep | grep mon_daemon.rb")
+        shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
         next if shell.stdout.empty?
         ps = shell.stdout.split(/\s+/)
 
