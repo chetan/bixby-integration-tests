@@ -28,7 +28,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_view_metric_detail
-    find("div.check[check_id='1'] div.metric[metric_id='1'] a.metric").click
+    page.all("div.check div.metric a.metric").first.click
     wait_for_state("mon_hosts_resources_metric")
 
     # test to see if more data was loaded
@@ -42,7 +42,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     # assert_equal 200, requests.last.response_parts.last.status
 
     # graph is displayed
-    assert_selector_i "div.metric.detail[metric_id='1'] div.graph canvas"
+    assert_selector_i "div.metric.detail div.graph canvas"
   end
 
   def test_reset_checks
@@ -144,7 +144,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
   def submit_options_and_verify(name, args=nil)
     find("a#submit_check").click
-    wait_for_state("mon_view_host")
+    wait_for_state("mon_view_host", 30)
 
     checks = Bixby::Model::Check.list(1)
     assert_equal name, find("div.check[check_id='#{checks.last.id}'] h4").text.strip
