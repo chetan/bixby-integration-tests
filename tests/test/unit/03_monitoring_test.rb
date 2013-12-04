@@ -217,7 +217,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
 
     # mon_daemon should restart
-    timeout(10) {
+    timeout(20, "waiting for mon daemon to restart (current pid=#{pid})") {
       while true do
         shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
         next if shell.stdout.empty?
