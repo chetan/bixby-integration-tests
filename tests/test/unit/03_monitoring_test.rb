@@ -150,10 +150,6 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
   # Test a direct call to update check API
   def test_update_check_config
 
-    shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
-    ps = shell.stdout.split(/\s+/)
-    pid = ps[1]
-
     req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
     res = Bixby.client.exec_api(req)
     assert res
@@ -161,17 +157,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
 
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
 
-    # mon_daemon should restart
-    timeout(20, "waiting for mon daemon to restart (current pid=#{pid})") {
-      while true do
-        shell = systemu("ps auxw | grep -v grep | grep bixby-monitoring-daemon")
-        next if shell.stdout.empty?
-        ps = shell.stdout.split(/\s+/)
-
-        # check for pid change
-        break if ps.last == "bixby-monitoring-daemon" && ps.first == "bixby" && ps[1] != pid
-      end
-    }
+    wait_for_mon_daemon_restart()
   end
 
 
