@@ -26,13 +26,15 @@ module Bixby
       def teardown
       end
 
-      def timeout(sec, &block)
+      def timeout(sec, reason="", &block)
         begin
           Timeout.timeout(sec) {
             yield
           }
         rescue Timeout::Error => ex
-          raise Micron::Assertion, "execution expired (#{sec} sec)", ex.backtrace
+          msg = "execution expired (#{sec} sec)"
+          msg += ": #{reason}" if not reason.empty?
+          raise Micron::Assertion, msg, ex.backtrace
         end
       end
 
