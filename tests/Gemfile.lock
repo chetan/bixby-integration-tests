@@ -63,7 +63,7 @@ PATH
 PATH
   remote: vendor/cache/common
   specs:
-    bixby-common (0.4.8)
+    bixby-common (0.4.9)
       api-auth
       faye-websocket
       httpi
