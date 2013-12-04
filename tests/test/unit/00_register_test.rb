@@ -21,6 +21,11 @@ class Bixby::Integration::Register < Bixby::Test::TestCase
       assert_equal 0, File.stat(f).uid, "#{f} owned by root"
     end
 
+    %w(bixby.god god.d).each do |f|
+      f = "/opt/bixby/etc/#{f}"
+      assert File.exists?(f), "#{f} exists"
+    end
+
     %w(bixby-agent.log bixby-agent.log.age bixby-agent.output bixby-agent.pid).each do |f|
       f = "/opt/bixby/var/#{f}"
       assert File.exists?(f), "#{f} exists"

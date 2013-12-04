@@ -39,6 +39,8 @@ module Bixby
       # Reset agent state, but do not start
       def reset_agent
         shell = systemu("/opt/bixby-integration/scripts/agent/stop.sh")
+        assert shell.success?, "agent stopped successfully"
+        shell = systemu("/opt/bixby-integration/scripts/agent/reset.sh")
         assert shell.success?, "agent reset successfully"
       end
 
