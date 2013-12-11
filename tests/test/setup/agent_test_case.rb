@@ -22,7 +22,7 @@ module Bixby
 
         cr = CommandResponse.from_json_response(res)
         assert cr
-        assert cr.success?
+        assert cr.success?, "remote exec should succeed"
         cr
       end
 
