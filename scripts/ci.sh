@@ -2,6 +2,7 @@
 
 set -e
 
+source $HOME/.bash_profile
 rvm use default
 
 cd /opt/bixby-integration
