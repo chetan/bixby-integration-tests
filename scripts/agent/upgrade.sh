@@ -42,7 +42,7 @@ sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
 # upgrade repo
 cd /opt/bixby/repo/
 sudo rm -rf vendor
-sudo wget https://s3.bixby.io/repo/repo-$(curl -sL s3.bixby.io/latest-repo).tar.gz
+sudo wget -q https://s3.bixby.io/repo/repo-$(curl -sL s3.bixby.io/latest-repo).tar.gz
 sudo tar -xzf repo-*.tar.gz
 sudo mv bixby-repo vendor
 sudo chown -R bixby:bixby vendor
