@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -ex
+set -e
+
+rvm use default
 
 cd /opt/bixby-integration
 
