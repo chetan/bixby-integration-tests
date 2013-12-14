@@ -1,3 +1,4 @@
 
+defscrollback 10000
 startup_message off
 caption always "%{=b kG} %H %{=r Bk}%-Lw%{=b rd}%50>%n %t%{-}%+w%<%{- bK} %-035= %{=b kG}[ %{=r wK}%m/%d/%y %0c%{=b kR} %l %{=b kG}]"
