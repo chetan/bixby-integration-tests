@@ -72,7 +72,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_net_conn_count
-    add_check_command(3, {:port => "80"}, "Network Connections by Type", "PORT = 80")
+    add_check_command(3, {:port => "80"}, "Network Connections by Type", "ARGS: PORT = 80")
   end
 
   def test_add_net_conn_state
@@ -80,31 +80,31 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_ping
-    add_check_command(5, {:host => "localhost"}, "Ping Test", "HOST = LOCALHOST")
+    add_check_command(5, {:host => "localhost"}, "Ping Test", "ARGS: HOST = LOCALHOST")
   end
 
   def test_add_port_check
     add_check_command(6, {:port => 80}, "Port Check", "PORT = 80")
-    add_check_command(6, {:port => "localhost:80"}, "Port Check", "PORT = LOCALHOST:80")
+    add_check_command(6, {:port => "localhost:80"}, "Port Check", "ARGS: PORT = LOCALHOST:80")
   end
 
   def test_add_disk_usage
-    add_check_command(7, nil, "Disk Usage", "MOUNT = /") do
+    add_check_command(7, nil, "Disk Usage", "ARGS: MOUNT = /") do
       select("/", :from => "mount")
     end
-    add_check_command(7, nil, "Disk Usage", "MOUNT = /BOOT") do
+    add_check_command(7, nil, "Disk Usage", "ARGS: MOUNT = /BOOT") do
       select("/boot", :from => "mount")
     end
   end
 
   def test_add_inode_usage
-    add_check_command(8, nil, "inode Usage", "MOUNT = /") do
+    add_check_command(8, nil, "inode Usage", "ARGS: MOUNT = /") do
       select("/", :from => "mount")
     end
   end
 
   def test_add_process_memory_usage
-    add_check_command(10, {:command_name => "mongod"}, "Process Memory Usage", "COMMAND_NAME = MONGOD")
+    add_check_command(10, {:command_name => "mongod"}, "Process Memory Usage", "ARGS: COMMAND_NAME = MONGOD")
   end
 
 
