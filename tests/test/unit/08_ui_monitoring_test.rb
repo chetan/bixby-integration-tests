@@ -84,7 +84,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def test_add_port_check
-    add_check_command(6, {:port => 80}, "Port Check", "PORT = 80")
+    add_check_command(6, {:port => 80}, "Port Check", "ARGS: PORT = 80")
     add_check_command(6, {:port => "localhost:80"}, "Port Check", "ARGS: PORT = LOCALHOST:80")
   end
 
