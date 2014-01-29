@@ -1,10 +1,12 @@
 #!/bin/bash
 
 set -e
-set -x
 
 source $HOME/.bash_profile
 rvm use default
+
+# set here to avoid rvm spam
+set -x
 
 cd /opt/bixby-integration
 
