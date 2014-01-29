@@ -7,6 +7,7 @@ source $HOME/.bash_profile
 rvm use default
 
 # set here to avoid rvm spam
+unset cd
 set -x
 
 cd /opt/bixby-integration

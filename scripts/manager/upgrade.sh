@@ -5,6 +5,7 @@
 set +x
 source $HOME/.rvm/scripts/rvm
 export RAILS_ENV=integration
+unset cd
 set -x
 
 bixby=/var/www/bixby
