@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 source $HOME/.bash_profile
 rvm use default
