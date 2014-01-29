@@ -2,7 +2,7 @@
 integration:
   secret_token: "foobar"
   default_tenant: "pixelcop"
-  default_tenant_pw: "test"
+  default_tenant_pw: "testtest"
   ruby:   "default"
   rvm:    "user"
   user:   "vagrant"
