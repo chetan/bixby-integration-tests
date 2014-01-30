@@ -32,4 +32,4 @@ cd $current
 rake db:drop >/dev/null
 rake db:create db:schema:load >/dev/null
 RAILS_ENV=integration RAILS_GROUPS=assets rake \
-  db:seed bixby:update_repos assets:precompile >/dev/null
+  db:seed bixby:update_repos assets:clobber assets:precompile >/dev/null
