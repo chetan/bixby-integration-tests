@@ -94,7 +94,8 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
     # enter new tag
     page.execute_script('$("li.select2-search-field").mousedown()')
     page.execute_script("$('input.select2-input').val('hosttag-#{i},')")
-    page.execute_script("$('input.select2-input').trigger('keyup-change')")
+    # page.execute_script("$('input.select2-input').trigger('keyup-change')")
+    page.execute_script("$('input.select2-input').trigger('keydown')") # seems to work in latest select2
     retry_for(1) {
       # wait for list to get updated
       2 == page.all("ul.select2-choices li.select2-search-choice").size
