@@ -26,7 +26,7 @@ module Bixby
         assert has_selector?('button.login')
         fill(
           :username => "pixelcop",
-          :password => "test"
+          :password => "testtest"
         )
         click_button("Login") # case sensitive
         wait_for_state("inventory")
