@@ -192,6 +192,12 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     assert_equal command["id"], data["command_id"]
     assert data["enabled"]
 
+    # force config update
+    req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
+    res = Bixby.client.exec_api(req)
+    assert res
+    assert res.success?
+
     # check should have been written to config.json as well, verify it
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
     sleep 0.2 # small delay to avoid race while file being written
