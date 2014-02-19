@@ -28,10 +28,10 @@ module Bixby
         html = "#{path}.html"
 
         page.save_screenshot(png, :full => true)
-        $stdout.puts "Saved screenshot to #{png}"
+        Logging.logger[self].info "Saved screenshot to #{png}"
 
         page.save_page(html)
-        $stdout.puts "Saved html to #{html}"
+        Logging.logger[self].info "Saved html to #{html}"
       end
 
       def teardown
