@@ -19,7 +19,7 @@ group :development do
 
     # ui
     gem "capybara"
-    gem "poltergeist", :github => "chetan/poltergeist", :branch => "netlog"
+    gem "poltergeist", :github => "chetan/poltergeist", :branch => "bixby"
 
     # misc
     gem "awesome_print"
