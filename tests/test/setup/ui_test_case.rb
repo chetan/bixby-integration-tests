@@ -34,8 +34,8 @@ module Bixby
         $stdout.puts "Saved html to #{html}"
       end
 
-      def take_screenshot
-        save_pages()
+      def teardown
+        take_screenshot()
         super # do last, so we don't lose our session
       end
 
