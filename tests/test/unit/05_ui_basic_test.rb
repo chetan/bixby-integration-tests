@@ -23,7 +23,7 @@ class Integration::UI::Basic < Bixby::Test::UITestCase
     wait_for_state("inventory")
 
     # look for navbar inventory tab
-    assert page.has_selector?("div.navbar ul.nav li.inventory.active")
+    assert has_selector?("nav.navbar ul.nav li.inventory.active"), "user is logged in (navbar visible)"
   end
 
 end

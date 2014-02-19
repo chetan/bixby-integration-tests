@@ -8,13 +8,13 @@ class Integration::UI::StayLoggedIn < Bixby::Test::LoggedInUITestCase
     visit url()
     wait_for_state("inventory")
     refute  has_selector_i?('button.login')
-    assert has_selector?("div.navbar ul.nav li.inventory.active")
+    assert has_selector?("nav.navbar ul.nav li.inventory.active"), "user is logged in (navbar visible)"
   end
 
   def test_logged_in_across_tests
     wait_for_state("inventory")
     refute  has_selector_i?('button.login')
-    assert has_selector?("div.navbar ul.nav li.inventory.active")
+    assert has_selector?("nav.navbar ul.nav li.inventory.active"), "user is logged in (navbar visible)"
   end
 
 end
