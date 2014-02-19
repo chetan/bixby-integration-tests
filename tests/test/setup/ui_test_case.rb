@@ -18,6 +18,24 @@ module Bixby
         Capybara.default_wait_time = 10
       end
 
+      def teardown
+        temp = Tempfile.new("screenshot-")
+        path = temp.path
+        temp.close
+        temp.unlink
+
+        png = "#{path}.png"
+        html = "#{path}.html"
+
+        page.save_screenshot(png, :full => true)
+        puts "Saved screenshot to #{png}"
+
+        page.save_page(html)
+        puts "Saved html to #{html}"
+
+        super # do last, so we don't lose our session
+      end
+
       # Create a URL to the given path
       #
       # @param [String] path
