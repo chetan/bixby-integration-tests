@@ -134,7 +134,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     if block_given? then
       yield
     elsif opts.nil? then
-      assert_equal "no options", find("div.command_opts div").text.strip
+      assert_equal "no options", find("div.no-opts").text.strip
     else
       fill(opts)
     end
