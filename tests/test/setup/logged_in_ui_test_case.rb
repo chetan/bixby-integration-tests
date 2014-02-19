@@ -10,6 +10,7 @@ module Bixby
 
       def teardown
         # don't reset capybara sessions after each run anymore (by not calling super)
+        take_screenshot()
         Capybara.ignore_hidden_elements = true
       end
 

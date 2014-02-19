@@ -18,7 +18,7 @@ module Bixby
         Capybara.default_wait_time = 10
       end
 
-      def teardown
+      def take_screenshot
         temp = Tempfile.new("screenshot-")
         path = temp.path
         temp.close
@@ -28,11 +28,14 @@ module Bixby
         html = "#{path}.html"
 
         page.save_screenshot(png, :full => true)
-        puts "Saved screenshot to #{png}"
+        $stdout.puts "Saved screenshot to #{png}"
 
         page.save_page(html)
-        puts "Saved html to #{html}"
+        $stdout.puts "Saved html to #{html}"
+      end
 
+      def take_screenshot
+        save_pages()
         super # do last, so we don't lose our session
       end
 
