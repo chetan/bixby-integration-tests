@@ -7,7 +7,7 @@ group :development do
     gem "bixby-common", :path => "../src/common"
     gem "bixby-client", :path => "../src/client"
 
-    gem "sidekiq"
+    gem "sidekiq", "~>2.16.1"
 
     # test tools (frameworks, mock, runners, etc)
     gem 'rake-hooks', :require => false
