@@ -87,8 +87,8 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
     i = Random.rand(1000)
     fill(
-      :alias => "hostalias-#{i}",
-      :desc  => "hostdesc-#{i}"
+      :alias       => "hostalias-#{i}",
+      :Description => "hostdesc-#{i}"
     )
 
     # enter new tag
