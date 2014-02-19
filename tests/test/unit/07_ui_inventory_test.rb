@@ -87,9 +87,9 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
     i = Random.rand(1000)
     fill(
-      :alias       => "hostalias-#{i}",
-      :Description => "hostdesc-#{i}"
+      :alias       => "hostalias-#{i}"
     )
+    find("#desc").set("hostdesc-#{i}")
 
     # enter new tag
     page.execute_script('$("li.select2-search-field").mousedown()')
