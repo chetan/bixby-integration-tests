@@ -10,6 +10,9 @@ rvm use default
 unset cd
 set -x
 
+# delete old screenshots
+find /tmp -type f -name 'screenshot-*' -ctime +7 -delete
+
 cd /opt/bixby-integration
 
 scripts/manager/stop.sh
