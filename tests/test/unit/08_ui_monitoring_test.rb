@@ -14,7 +14,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
     wait_for_state("mon_view_host", 60) # really slow right now.. need to speed up mongo driver or switch to kairos
 
-    assert find("h3").text =~ /Resources for bixbytest/
+    assert find("h3").text =~ /Metrics for bixbytest/
 
     checks = Bixby::Model::Check.list(1)
 
@@ -29,7 +29,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
   def test_view_metric_detail
     page.all("div.check div.metric a.metric").first.click
-    wait_for_state("mon_hosts_resources_metric")
+    wait_for_state("mon_hosts_checks_metric")
 
     # test to see if more data was loaded
     #
@@ -121,11 +121,11 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   # @return [Fixnum] ID of new check
   def add_check_command(id, opts, check_name, args=nil)
     visit url("/monitoring/hosts/1/checks/new")
-    wait_for_state("mon_hosts_resources_new")
+    wait_for_state("mon_hosts_checks_new")
 
     page.all("label[for='command_id_#{id}']").first.click
     find("a#submit_check").click
-    wait_for_state("mon_hosts_resources_new_opts")
+    wait_for_state("mon_hosts_checks_new_opts")
 
     # h4 label
     assert_equal check_name, find("div.command_opts h4").text.strip
