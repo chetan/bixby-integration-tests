@@ -29,7 +29,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
   def test_view_metric_detail
     page.all("div.check div.metric a.metric").first.click
-    wait_for_state("mon_hosts_checks_metric")
+    wait_for_state("mon_hosts_metric")
 
     # test to see if more data was loaded
     #
@@ -124,7 +124,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     wait_for_state("mon_hosts_checks_new")
 
     page.all("label[for='command_id_#{id}']").first.click
-    find("a#submit_check").click
+    find("button#submit_check").click
     wait_for_state("mon_hosts_checks_new_opts")
 
     # h4 label
@@ -143,7 +143,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def submit_options_and_verify(name, args=nil)
-    find("a#submit_check").click
+    find("button#submit_check").click
     wait_for_state("mon_view_host", 30)
 
     checks = Bixby::Model::Check.list(1)
