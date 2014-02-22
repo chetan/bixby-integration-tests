@@ -60,7 +60,7 @@ module Bixby
       #
       # @raise [ExitException] if timeout
       def wait_for_requests(num, sec=10)
-        retry_for(sec) {
+        retry_for(sec, "waiting for #{num} network reqs") {
           requests.size >= num && requests.find_all{ |r| r.completed?}.size >= num
         }
       end
@@ -72,7 +72,7 @@ module Bixby
       #
       # @raise [ExitException] if timeout
       def wait_for_state(state, sec=10)
-        retry_for(sec) {
+        retry_for(sec, "waiting for state #{state}") {
           curr_state = evaluate_script("Bixby.app.current_state.name")
           # puts "want state=#{state}; curr_state=#{curr_state}"
           state == curr_state

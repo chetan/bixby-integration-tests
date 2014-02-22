@@ -26,14 +26,14 @@ module Bixby
       def teardown
       end
 
-      def timeout(sec, reason="", &block)
+      def timeout(sec, reason=nil, &block)
         begin
           Timeout.timeout(sec) {
             yield
           }
         rescue Timeout::Error => ex
           msg = "execution expired (#{sec} sec)"
-          msg += ": #{reason}" if not reason.empty?
+          msg += ": #{reason}" if !(reason.nil? or reason.empty?)
           raise Micron::Assertion, msg, ex.backtrace
         end
       end
@@ -71,7 +71,7 @@ module Bixby
       #
       # @raise [ExitException] if timeout reached
       def wait_for_manager
-        timeout(60) {
+        timeout(60, "waiting for manager to start") {
           while true do
             sleep 0.5
             return if http_get("http://localhost/").code < 500
@@ -87,7 +87,7 @@ module Bixby
       # @return [Boolean] true if file was found within time limit
       # @raise [ExitException] if timeout
       def wait_for_file(filename, limit=5)
-        timeout(limit) {
+        timeout(limit, "waiting for file #{filename}") {
           while true do
             return true if File.exists?(filename)
             sleep 0.25
@@ -104,7 +104,7 @@ module Bixby
       # @return [Boolean] true if file was changed within time limit
       # @raise [ExitException] if timeout
       def wait_for_file_change(filename, start, limit)
-        timeout(limit) {
+        timeout(limit, "waiting for file change in #{filename}") {
           while true do
             return true if File.exists?(filename) && File.stat(filename).mtime > start
           end
@@ -117,8 +117,8 @@ module Bixby
       # @param [Block] block
       #
       # @raise [ExitException] if timeout
-      def retry_for(sec, &block)
-        timeout(sec) {
+      def retry_for(sec, reason=nil, &block)
+        timeout(sec, reason) {
           while true
             sleep 0.1
             return if block.call()
