@@ -64,51 +64,51 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   # Test adding each check
 
   def test_add_cpu_load
-    add_check_command(1, nil, "CPU Load Average")
+    add_check_command(nil, "CPU Load Average")
   end
 
   def test_add_cpu_usage
-    add_check_command(2, nil, "CPU Usage")
+    add_check_command(nil, "CPU Usage")
   end
 
   def test_add_net_conn_count
-    add_check_command(3, nil, "Network Connections by Type")
+    add_check_command(nil, "Network Connections by Type")
   end
 
   def test_add_net_conn_count_by_port
-    add_check_command(4, {:port => "80"}, "Network Connections by Port", "ARGS: PORT = 80")
+    add_check_command({:port => "80"}, "Network Connections by Port", "ARGS: PORT = 80")
   end
 
   def test_add_net_conn_state
-    add_check_command(5, nil, "Network Connections by State")
+    add_check_command(nil, "Network Connections by State")
   end
 
   def test_add_ping
-    add_check_command(6, {:host => "localhost"}, "Ping Test", "ARGS: HOST = LOCALHOST")
+    add_check_command({:host => "localhost"}, "Ping Test", "ARGS: HOST = LOCALHOST")
   end
 
   def test_add_port_check
-    add_check_command(7, {:port => 80}, "Port Check", "ARGS: PORT = 80")
-    add_check_command(7, {:port => "localhost:80"}, "Port Check", "ARGS: PORT = LOCALHOST:80")
+    add_check_command({:port => 80}, "Port Check", "ARGS: PORT = 80")
+    add_check_command({:port => "localhost:80"}, "Port Check", "ARGS: PORT = LOCALHOST:80")
   end
 
   def test_add_disk_usage
-    add_check_command(8, nil, "Disk Usage", "ARGS: MOUNT = /") do
+    add_check_command(nil, "Disk Usage", "ARGS: MOUNT = /") do
       select("/", :from => "mount")
     end
-    add_check_command(8, nil, "Disk Usage", "ARGS: MOUNT = /BOOT") do
+    add_check_command(nil, "Disk Usage", "ARGS: MOUNT = /BOOT") do
       select("/boot", :from => "mount")
     end
   end
 
   def test_add_inode_usage
-    add_check_command(9, nil, "inode Usage", "ARGS: MOUNT = /") do
+    add_check_command(nil, "inode Usage", "ARGS: MOUNT = /") do
       select("/", :from => "mount")
     end
   end
 
   def test_add_process_memory_usage
-    add_check_command(11, {:command_name => "mongod"}, "Process Memory Usage", "ARGS: COMMAND_NAME = MONGOD")
+    add_check_command({:command_name => "mongod"}, "Process Memory Usage", "ARGS: COMMAND_NAME = MONGOD")
   end
 
 
@@ -117,15 +117,16 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
   # Start monitoring the given check
   #
-  # @param [Fixnum] id          Command ID
   # @param [Hash] opts          if nil, then no options are available
   # @param [String] check_name
   # @param [String] args        text which displays args in metrics info
   #
   # @return [Fixnum] ID of new check
-  def add_check_command(id, opts, check_name, args=nil)
+  def add_check_command(opts, check_name, args=nil)
     visit url("/monitoring/hosts/1/checks/new")
     wait_for_state("mon_hosts_checks_new")
+
+    id = find_check_id(check_name)
 
     page.all("label[for='command_id_#{id}']").first.click
     find("button#submit_check").click
@@ -144,6 +145,15 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     end
 
     check_id = submit_options_and_verify(check_name, args)
+  end
+
+  def find_check_id(name)
+    Bixby::Model::Command.list.each do |cmd|
+      if cmd.name == name then
+        return name
+      end
+    end
+    nil
   end
 
   def submit_options_and_verify(name, args=nil)
