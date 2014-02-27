@@ -150,7 +150,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   def find_check_id(name)
     Bixby::Model::Command.list.each do |cmd|
       if cmd.name == name then
-        return name
+        return cmd.id
       end
     end
     nil
