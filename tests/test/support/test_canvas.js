@@ -7,7 +7,7 @@ function testGraphs(checkId) {
   var result = true;
 
   // loop through each metric and test each canvas
-  $("div.check[check_id='" + checkId + "'] div.metric").each(function(m, metric) {
+  $("div.check[check_id='" + checkId + "'] div.metric div.box").each(function(m, metric) {
 
     var i = 0;
     $(metric).find("div.graph_container div.graph canvas").each(function(c, canvas) {
