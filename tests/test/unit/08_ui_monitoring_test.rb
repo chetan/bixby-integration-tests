@@ -21,8 +21,8 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     checks.each do |check|
       ap check
       assert_selector_i "div.check[check_id='#{check.id}']"
-      assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.graph_container div.graph"
-      assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.graph_container div.graph canvas"
+      assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.box div.graph_container div.graph"
+      assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.box div.graph_container div.graph canvas"
       assert page.evaluate_script("testGraphs(#{check.id});")
     end
   end
