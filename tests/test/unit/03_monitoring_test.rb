@@ -210,7 +210,8 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     assert_equal cmd[:bundle], mon_config["command"]["bundle"]
     assert_equal cmd[:command], mon_config["command"]["command"]
 
-    data
+    # return a proper Check object
+    return Bixby::Model::Check.find(data["id"])
   end
 
   # Wait for the monitoring daemon to come up
