@@ -2,6 +2,9 @@
 
 set -e
 
+# make sure /var/www/bixby/current is always mounted
+sudo mount -a
+
 set +x
 source $HOME/.bash_profile
 rvm use default
