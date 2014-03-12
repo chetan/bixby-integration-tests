@@ -11,153 +11,123 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     @pid = mon_pid()
   end
 
+  def test_reset_checks
+    Bixby::Model::Check.list(1).each do |check|
+      assert Bixby::Model::Check.destroy(check.id)
+    end
+    assert_empty Bixby::Model::Check.list(1)
+    Bixby::Monitoring.update_check_config(1)
+  end
+
   def test_add_first_check_cpu_load
 
-    check = add_check({
+    cmd = {
       :repo    => "vendor",
       :bundle  => "hardware/cpu",
       :command => "monitoring/cpu_load.rb",
-    }, nil)
+    }
+    check = add_check(cmd, nil)
 
     assert check
     assert check["name"] =~ /load average/i
     assert_empty check["args"]
 
-    wait_for_mon_daemon_restart()
+    update_check_config()
+
+    # check should have been written to config.json as well, verify it
+    cmd[:id] = check.id
+    verify_check_config(cmd)
   end
 
-  def test_add_cpu_usage
-
-    check = add_check({
+  # list of checks to test
+  checks = [
+    {
+      :name    => "cpu usage",
       :repo    => "vendor",
       :bundle  => "hardware/cpu",
       :command => "monitoring/cpu_usage.rb",
-    }, nil)
-
-    assert check
-    assert check["name"] =~ /cpu usage/i
-    assert_empty check["args"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_disk_usage
-
-    check = add_check({
+    },
+    {
+      :name    => "disk usage",
       :repo    => "vendor",
       :bundle  => "hardware/storage",
       :command => "monitoring/disk_usage.rb",
-    }, nil)
-
-    assert check
-    assert check["name"] =~ /disk usage/i
-    assert_empty check["args"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_inode_usage
-
-    check = add_check({
+    },
+    {
+      :name    => "inode usage",
       :repo    => "vendor",
       :bundle  => "hardware/storage",
       :command => "monitoring/inode_usage.rb",
-    }, nil)
-
-    assert check
-    assert check["name"] =~ /inode usage/i
-    assert_empty check["args"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_port_check
-
-    check = add_check({
+    },
+    {
+      :name    => "port check",
       :repo    => "vendor",
       :bundle  => "hardware/network",
       :command => "monitoring/port_check.rb",
-    }, {:port => "localhost:80"})
-
-    assert check
-    assert check["name"] =~ /port check/i
-    refute_empty check["args"]
-    assert_equal "localhost:80", check["args"]["port"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_ping
-
-    check = add_check({
+      :args    => {:port => "localhost:80"}
+    },
+    {
+      :name    => "ping",
       :repo    => "vendor",
       :bundle  => "hardware/network",
       :command => "monitoring/ping.rb",
-    }, {:host => "localhost"})
-
-    assert check
-    assert check["name"] =~ /ping/i
-    refute_empty check["args"]
-    assert_equal "localhost", check["args"]["host"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_connection_count
-
-    check = add_check({
+      :args    => {:host => "localhost"}
+    },
+    {
+      :name    => "network connections by type",
       :repo    => "vendor",
       :bundle  => "hardware/network",
       :command => "monitoring/connection_count.rb",
-    }, {:port => "80,22"})
-
-    assert check
-    refute_empty check["args"]
-    assert_equal "80,22", check["args"]["port"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_connection_state
-
-    check = add_check({
+      :args    => {:port => "80,22"}
+    },
+    {
+      :name    => "network connections by state",
       :repo    => "vendor",
       :bundle  => "hardware/network",
       :command => "monitoring/connection_state.rb",
-    }, nil)
-
-    assert check
-    assert_empty check["args"]
-
-    wait_for_mon_daemon_restart()
-  end
-
-  def test_add_process_usage
-
-    check = add_check({
+    },
+    {
+      :name => "process memory usage",
       :repo    => "vendor",
       :bundle  => "system/general",
       :command => "monitoring/process_usage.rb",
-    }, {:command_name => "mongod"})
+      :args => {:command_name => "mongod"}
+    }
+  ]
 
-    assert check
-    refute_empty check["args"]
-    assert_equal "mongod", check["args"]["command_name"]
+  # Create tests to add each check
+  checks.each do |c|
+    name, args = [ c.delete(:name), c.delete(:args) ]
 
-    wait_for_mon_daemon_restart()
+    c[:command] =~ %r{/(.*?)\.rb$}
+    m = $1
+    define_method("test_add_#{m}".to_sym) do
+      check = add_check(c, args)
+      assert check
+      c[:id] = check.id
+      assert_includes check.name.downcase, name
+      if args.nil? then
+        assert_empty check.args
+      else
+        refute_empty check.args
+        args.each do |k,v|
+          assert_equal v, check.args[k.to_s], "arg #{k} has correct value"
+        end
+      end
+    end
   end
 
-  # Test a direct call to update check API
   def test_update_check_config
+    update_check_config()
+  end
 
-    req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
-    res = Bixby.client.exec_api(req)
-    assert res
-    assert res.success?
-
-    assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
-
-    wait_for_mon_daemon_restart()
+  # Create tests to verify each check
+  checks.each do |c|
+    c[:command] =~ %r{/(.*?)\.rb$}
+    m = $1
+    define_method("test_verify_config_#{m}") do
+      verify_check_config(c)
+    end
   end
 
 
@@ -192,26 +162,36 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
     assert_equal command["id"], data["command_id"]
     assert data["enabled"]
 
+
+    # return a proper Check object
+    return Bixby::Model::Check.find(data["id"])
+  end
+
+  # update check config and wait for mon daemon to restart
+  def update_check_config()
     # force config update
     req = JsonRequest.new("monitoring:update_check_config", [@agent_id])
     res = Bixby.client.exec_api(req)
     assert res
     assert res.success?
 
-    # check should have been written to config.json as well, verify it
     assert wait_for_file_change("/opt/bixby/etc/monitoring/config.json", @start_time, 10)
     sleep 0.2 # small delay to avoid race while file being written
+    wait_for_mon_daemon_restart()
+  end
+
+  # Verify that the check config for the given command/check is present
+  def verify_check_config(cmd)
     mon_config = MultiJson.load(File.read("/opt/bixby/etc/monitoring/config.json"))
     assert_kind_of Array, mon_config
-    mon_config = mon_config.last
+
+    mon_config = mon_config.find{ |c| MultiJson.load(c["command"]["stdin"])["check_id"] == cmd[:id] }
+
     assert_equal 60, mon_config["retry"]
     assert_equal 60, mon_config["interval"]
     assert_equal cmd[:repo], mon_config["command"]["repo"]
     assert_equal cmd[:bundle], mon_config["command"]["bundle"]
     assert_equal cmd[:command], mon_config["command"]["command"]
-
-    # return a proper Check object
-    return Bixby::Model::Check.find(data["id"])
   end
 
   # Wait for the monitoring daemon to come up
