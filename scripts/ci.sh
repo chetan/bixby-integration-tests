@@ -14,7 +14,7 @@ unset cd
 set -x
 
 # delete old screenshots
-find /tmp -type f -name 'screenshot-*' -ctime +7 -delete
+sudo find /tmp -type f -name 'screenshot-*' -ctime +7 -delete
 
 cd /opt/bixby-integration
 
