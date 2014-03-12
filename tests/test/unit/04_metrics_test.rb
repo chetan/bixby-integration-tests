@@ -11,12 +11,14 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
     # crude and hackish.. yech
     ts = Time.new
     stats = nil
-    timeout(65) {
+    timeout(120) {
       while true do
         stats = Sidekiq::Stats.new
         puts "queued = #{stats.queues['schedules']}"
         puts "processed = #{stats.processed}"
-        if stats.queues["schedules"] == 0 && stats.processed >= 12 then
+        if stats.queues["schedules"] == 0 && stats.processed >= 5 then
+          # processed should be 5 because we need at least 2 reports from the mon daemon for some
+          # checks to report metrics
           break
         end
         sleep 1
@@ -25,11 +27,12 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
 
     checks = Bixby::Model::Check.list(@agent_id)
     checks.each do |check|
-
+      puts
       p check
+
       metrics = Bixby::Model::Metric.list_for_check(check.host_id, check.id)
-      assert metrics
       refute_empty metrics, "have metrics for check (#{check.name})"
+
       metrics.each do |metric|
         p metric
         assert metric
