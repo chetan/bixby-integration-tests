@@ -25,5 +25,5 @@ scripts/manager/upgrade.sh
 scripts/agent/upgrade.sh
 
 cd tests
-bundle install
+bundle install --quiet
 bundle exec micron
