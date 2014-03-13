@@ -12,8 +12,9 @@ function testGraphs(checkId) {
     var i = 0;
     $(metric).find("div.graph_container div.graph canvas").each(function(c, canvas) {
       i++;
-      if (i == 1 && getPixelPct(canvas, 0, 128, 128) == 0) {
-        // look for teal graph line
+      if (i == 1 && getPixelPct(canvas, 66, 139, 202) == 0) {
+        // look for blue graph line
+        // didn't find it, so it
         result = false;
       } else if (i == 2 && getPixelPct(canvas, 192, 192, 192) == 0) {
         // look for grey grid lines

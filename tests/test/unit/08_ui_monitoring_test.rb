@@ -23,7 +23,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
       assert_selector_i "div.check[check_id='#{check.id}']"
       assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.box div.graph_container div.graph"
       assert_selector_i "div.check[check_id='#{check.id}'] div.metric div.box div.graph_container div.graph canvas"
-      assert page.evaluate_script("testGraphs(#{check.id});")
+      assert page.evaluate_script("testGraphs(#{check.id});"), "graph canvas should be drawn correctly"
     end
   end
 
