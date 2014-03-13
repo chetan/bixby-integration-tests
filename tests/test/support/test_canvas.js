@@ -13,13 +13,11 @@ function testGraphs(checkId) {
     $(metric).find("div.graph_container div.graph canvas").each(function(c, canvas) {
       i++;
       if (i == 1 && getPixelPct(canvas, 66, 139, 202) == 0) {
-        // look for blue graph line
-        // didn't find it, so it
-
+        // blue graph line is missing
         if ($(metric).find("h5.title a").text().toLowerCase().indexOf("_wait") >= 0) {
           // it's ok if some graphs don't have a line
           // in this case: connections by state - time_wait, close_wait, etc may only report one value
-          continue;
+          return;
         }
 
         result = false;
