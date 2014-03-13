@@ -27,11 +27,14 @@ module Bixby
         png = "#{path}.png"
         html = "#{path}.html"
 
+        addr = `ifconfig eth1 | grep 'inet addr' | awk '{print $2}'`
+        ip = addr.split(/:/).last.strip
+
         page.save_screenshot(png, :full => true)
-        Logging.logger[self].info "Saved screenshot to #{png}"
+        $stderr.puts "Saved screenshot: http://#{ip}/screenshots/#{File.basename(png)}"
 
         page.save_page(html)
-        Logging.logger[self].info "Saved html to #{html}"
+        $stderr.puts "Saved html to: #{html}" # don't show url because JS just sends us to login page..
       end
 
       def teardown
