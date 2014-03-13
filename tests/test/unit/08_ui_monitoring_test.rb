@@ -8,6 +8,11 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
   def test_verify_all_metric_graphs_for_host
 
+    # sleep for an extra reporting cycle to complete
+    # cpu usage check in particular needs 3 full cycles to report 2 data points
+    # so we have enough to graph it
+    sleep(65)
+
     visit url()
     assert_selector_i "div.host_list div.host div.actions a.monitoring"
     find("div.host_list div.host div.actions a.monitoring").click
