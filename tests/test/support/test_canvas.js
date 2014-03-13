@@ -15,6 +15,13 @@ function testGraphs(checkId) {
       if (i == 1 && getPixelPct(canvas, 66, 139, 202) == 0) {
         // look for blue graph line
         // didn't find it, so it
+
+        if ($(metric).find("h5.title a").text().toLowerCase().indexOf("_wait") >= 0) {
+          // it's ok if some graphs don't have a line
+          // in this case: connections by state - time_wait, close_wait, etc may only report one value
+          continue;
+        }
+
         result = false;
       } else if (i == 2 && getPixelPct(canvas, 192, 192, 192) == 0) {
         // look for grey grid lines
