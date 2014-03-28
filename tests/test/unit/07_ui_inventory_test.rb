@@ -112,7 +112,7 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
     # verify in UI
     assert page.find("h3").text =~ /hostalias-#{i}/
-    assert page.find("blockquote.desc").text =~ /hostdesc-#{i}/
+    assert page.find("div.desc").text =~ /hostdesc-#{i}/
     assert page.all("a.tag").first.text == "#hosttag-#{i}"
   end
 
