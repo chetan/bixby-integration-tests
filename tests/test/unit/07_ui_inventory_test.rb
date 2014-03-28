@@ -73,11 +73,9 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
   def test_edit_host_data
 
-    refute_selector_i "div.host button.edit"
-    find("div.host div.body").hover
-    assert_selector_i "div.host button.edit"
+    assert_selector_i "div.host a.edit"
 
-    click_button("edit")
+    click_button("a.edit")
     assert_selector "div.host_editor"
 
     i = Random.rand(1000)
