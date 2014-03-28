@@ -21,11 +21,6 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
     Capybara.ignore_hidden_elements = false
 
-    # approve/reject buttons not visible until we hover
-    refute find("div.new_host_list button.approve").visible?
-    refute find("div.new_host_list button.reject").visible?
-
-    find("div.new_host_list div.body").hover
     assert find("div.new_host_list button.approve").visible?
     assert find("div.new_host_list button.reject").visible?
 
