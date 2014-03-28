@@ -75,7 +75,7 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
 
     assert_selector_i "div.host a.edit"
 
-    click_button("a.edit")
+    find("a.edit").click
     assert_selector "div.host_editor"
 
     i = Random.rand(1000)
