@@ -36,7 +36,6 @@ class Integration::Metrics < Bixby::Test::AgentTestCase
       metrics.each do |metric|
         p metric
         assert metric
-        assert_equal "bixbytest", metric.tags["host"]
         assert_equal @agent_id, metric.tags["host_id"].to_i
         assert_equal check.id, metric.tags["check_id"].to_i
         refute_nil metric.last_value
