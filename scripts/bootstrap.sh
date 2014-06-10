@@ -91,7 +91,7 @@ rm -rf phantomjs*
 
 ################################################################################
 # install agent
-\curl -sL https://get.bixby.io | BETA=1 bash -s
+\curl -sL https://get.bixby.io | bash -s
 
 unset http_proxy
 unset https_proxy
