@@ -83,7 +83,7 @@ bundle install
 
 # install phantomjs
 cd /tmp
-wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+wget -nv https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
 tar -xjf phantom*.bz2
 sudo cp -a phantom*/bin/phantomjs /usr/local/bin/
 rm -rf phantomjs*
