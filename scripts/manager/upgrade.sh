@@ -26,6 +26,7 @@ bundle install --local > /dev/null
 cp -a /opt/bixby-integration/manager/database.yml \
       /opt/bixby-integration/manager/bixby.yml \
       /opt/bixby-integration/manager/mongoid.yml \
+      /opt/bixby-integration/manager/secrets.yml \
       $current/config/
 
 cd $current
