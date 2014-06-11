@@ -91,9 +91,8 @@ rm -rf phantomjs*
 
 ################################################################################
 # checkout source repos
-cd $HOME
-mkdir -p src
-cd src
+mkdir -p $HOME/src
+cd $HOME/src
 for proj in common client agent manager; do
   git clone https://github.com/chetan/bixby-$proj.git $proj
 done
