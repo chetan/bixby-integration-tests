@@ -19,7 +19,7 @@ for proj in common client agent; do
 
   rm -rf pkg *.gem
   # $shim bundle install --without development test
-  gem build *.gemspec >/dev/null
+  gem build *.gemspec 2>/dev/null
   sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
 done
 
@@ -36,7 +36,7 @@ git checkout -q bixby
 git reset --hard -q
 git pull -q
 rm -rf pkg *.gem
-gem build *.gemspec >/dev/null
+gem build *.gemspec 2>/dev/null
 sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
 
 # upgrade repo
