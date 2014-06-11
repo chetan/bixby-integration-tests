@@ -12,7 +12,7 @@ for proj in agent client common; do
 done
 
 for proj in common client agent; do
-  echo "* updating $proj"
+  echo "* upgrading $proj gem in /opt/bixby"
   cd /opt/bixby-integration/src/$proj
   # git reset --hard
   git pull -q
@@ -26,7 +26,7 @@ done
 # properly install runtime deps from git
 # currently only api-auth is from git
 echo
-echo "* installing api-auth"
+echo "* upgrading api-auth in /opt/bixby"
 cd /opt/bixby-integration/src
 if [ ! -d api_auth ]; then
   git clone https://github.com/chetan/api_auth.git
