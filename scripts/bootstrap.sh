@@ -4,8 +4,9 @@
 # so instead we run shim.sh via vagrant's provisioner which in turn will
 # run this script as a non-root user (vagrant)
 
-export http_proxy="http://192.168.80.98:8000"
-export https_proxy="http://192.168.80.98:8001"
+# possibly useful for development to speed up bootstrapping
+# export http_proxy="http://192.168.80.98:8000"
+# export https_proxy="http://192.168.80.98:8001"
 
 # make sure bind mount is up
 sudo mount -a
@@ -75,18 +76,16 @@ sudo cp /opt/bixby-integration/manager/nginx/nginx.conf /etc/nginx/nginx.conf
 sudo cp /opt/bixby-integration/manager/nginx/bixby.conf /etc/nginx/sites-enabled/bixby.conf
 sudo service nginx restart
 
-# should be on ruby-2.0.0-p247 or later by default
-
-# setup integration test env
-cd /opt/bixby-integration/tests
-bundle install
-
 # install phantomjs
 cd /tmp
 wget -nv https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
 tar -xjf phantom*.bz2
 sudo cp -a phantom*/bin/phantomjs /usr/local/bin/
 rm -rf phantomjs*
+
+# unset so we don't interfere with github
+unset http_proxy
+unset https_proxy
 
 
 ################################################################################
@@ -100,13 +99,14 @@ git clone https://github.com/chetan/api_auth.git
 cd api_auth
 git checkout -qb bixby origin/bixby
 
+# setup integration test env
+cd /opt/bixby-integration/tests
+bundle install
+
 
 ################################################################################
 # install agent
 \curl -sL https://get.bixby.io | bash -s
-
-unset http_proxy
-unset https_proxy
 
 
 ################################################################################

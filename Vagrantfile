@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu-12.04-x86_64"
   config.vm.hostname = "bixbytest"
 
-  config.vm.provision :shell, :path => "scripts/shim.sh"
+  config.vm.provision :shell, :path => "scripts/bootstrap.sh", :privileged => false
 
   # mount our source
   dir = File.expand_path(File.dirname(__FILE__))
