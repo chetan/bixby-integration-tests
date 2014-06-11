@@ -15,8 +15,12 @@ for proj in common client agent api_auth; do
   echo "* upgrading $proj gem in /opt/bixby"
   cd $HOME/src/$proj
   rm -rf pkg *.gem
-  # $shim bundle install --without development test
   gem build *.gemspec 2>/dev/null
+
+  if [[ "$proj" == "agent" ]]; then
+    sudo $shim bundle install --quiet --without development test
+  fi
+
   sudo $shim gem install *.gem --no-ri --no-rdoc --local >/dev/null
 done
 
