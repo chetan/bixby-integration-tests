@@ -6,7 +6,7 @@ sudo pkill -9 -u 0 -U 0 -f god
 pkill -9 -f sidekiq
 pkill -9 -f puma
 cd /var/www/bixby/current
-bundle install --local > /dev/null
+bundle install --quiet
 rake db:drop
 redis-cli flushall > /dev/null
 

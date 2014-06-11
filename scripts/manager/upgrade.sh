@@ -20,7 +20,7 @@ sudo chown -R vagrant:vagrant $bixby/shared/
 echo "updating manager"
 cd $current
 git pull
-bundle install --local > /dev/null
+bundle install --quiet
 
 # copy configs
 cp -a /opt/bixby-integration/manager/database.yml \
