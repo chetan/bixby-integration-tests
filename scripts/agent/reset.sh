@@ -1,6 +1,6 @@
 
 # init
-cd /opt/bixby-integration/src/agent/etc
+cd $HOME/src/agent/etc
 sudo cp -a bixby-god.initd /etc/init.d/bixby
 sudo chmod 755 /etc/init.d/bixby
 

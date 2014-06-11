@@ -16,14 +16,25 @@ set -x
 # delete old screenshots
 sudo find /tmp -type f -name 'screenshot-*' -ctime +7 -delete
 
+# update source repos
+for repo in manager agent client common api_auth; do
+  cd $HOME/src/$repo
+  echo "* updating $repo"
+  git pull -q
+done
+
+
 cd /opt/bixby-integration
 
+# stop running daemons
 scripts/manager/stop.sh
 scripts/agent/stop.sh
 
+# upgrade manager and agent
 scripts/manager/upgrade.sh
 scripts/agent/upgrade.sh
 
+# run tests
 cd tests
 bundle install --quiet
 bundle exec micron

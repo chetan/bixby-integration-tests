@@ -90,6 +90,19 @@ rm -rf phantomjs*
 
 
 ################################################################################
+# checkout source repos
+cd $HOME
+mkdir -p src
+cd src
+for proj in common client agent manager; do
+  git clone https://github.com/chetan/bixby-$proj.git $proj
+done
+git clone https://github.com/chetan/api_auth.git
+cd api_auth
+git checkout -qb bixby origin/bixby
+
+
+################################################################################
 # install agent
 \curl -sL https://get.bixby.io | bash -s
 
@@ -108,7 +121,7 @@ current=$bixby/current
 
 echo "creating $bixby"
 sudo mkdir -p $current
-echo "/opt/bixby-integration/src/manager  /var/www/bixby/current   none   defaults,bind  0 0" | cat /etc/fstab - | sudo tee /etc/fstab > /dev/null
+echo "/home/vagrant/src/manager  /var/www/bixby/current   none   defaults,bind  0 0" | cat /etc/fstab - | sudo tee /etc/fstab > /dev/null
 sudo mount -a
 cd $current
 mkdir -p tmp
