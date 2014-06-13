@@ -48,7 +48,7 @@ module Bixby
 
       # Start the agent daemon (register with the manager)
       def register_agent
-        shell = systemu("sudo BIXBY_LOG=debug /opt/bixby/bin/bixby-agent -P testtest -t pixelcop --tags test -- http://localhost")
+        shell = systemu("sudo BIXBY_LOG=debug /opt/bixby/bin/bixby-agent -P testtest -t pixelcop --tags test --register http://localhost")
         assert shell.success?, "agent started successfully"
         systemu("sudo /etc/init.d/bixby start") # start bixby god
       end
