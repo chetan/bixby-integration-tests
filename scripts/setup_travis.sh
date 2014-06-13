@@ -40,6 +40,7 @@ shared=$bixby/shared
 current=$bixby/current
 
 echo "creating $bixby"
+sudo mkdir -p $bixby
 sudo cp -a $HOME/src/manager $current
 cd $current
 mkdir -p tmp
