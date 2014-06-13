@@ -29,7 +29,7 @@ git checkout -qb bixby origin/bixby
 
 # install test deps
 cd $TEST_ROOT/tests
-bundle install --deployment
+bundle install --retry=3 --deployment
 
 
 ################################################################################
@@ -53,3 +53,4 @@ cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
+bundle install --retry=3 --deployment
