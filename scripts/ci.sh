@@ -6,8 +6,11 @@ set -e
 sudo mount -a
 
 set +x
-source $HOME/.bash_profile
-rvm use default
+if [[ -f $HOME/.bash_profile ]]; then
+  # rvm hack, won't get used on travis
+  source $HOME/.bash_profile
+  rvm use default
+fi
 
 # set here to avoid rvm spam
 unset cd
