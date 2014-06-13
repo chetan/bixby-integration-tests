@@ -7,7 +7,7 @@ pkill -9 -f sidekiq
 pkill -9 -f puma
 cd /var/www/bixby/current
 bundle install --quiet
-rake db:drop
+bundle exec rake db:drop
 redis-cli flushall > /dev/null
 
 # reset mongodb data dir

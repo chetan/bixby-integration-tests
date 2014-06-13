@@ -42,7 +42,7 @@ if [[ -n "$DB_USER" ]]; then
 fi
 
 cd $current
-rake db:drop >/dev/null
-rake db:create db:schema:load >/dev/null
-RAILS_ENV=integration RAILS_GROUPS=assets rake \
+bundle exec rake db:drop >/dev/null
+bundle exec rake db:create db:schema:load >/dev/null
+RAILS_ENV=integration RAILS_GROUPS=assets bundle exec rake \
   db:seed bixby:update_repos assets:clobber assets:precompile >/dev/null
