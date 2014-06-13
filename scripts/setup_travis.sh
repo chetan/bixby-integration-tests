@@ -1,5 +1,11 @@
+#!/bin/bash
+
+set -e
+set -x
 
 TEST_ROOT=$(pwd)
+echo $TEST_ROOT
+exit 1
 
 sudo apt-get -qq update
 sudo apt-get install nginx
