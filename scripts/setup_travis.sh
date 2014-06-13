@@ -4,6 +4,37 @@ set -e
 unset cd
 set -x
 
+###
+# cribbed from travis-build/lib/travis/build/script/templates/header.sh
+RED="\033[31;1m"
+GREEN="\033[32;1m"
+RESET="\033[0m"
+
+travis_retry() {
+  set +e
+  local result=0
+  local count=1
+  while [ $count -le 3 ]; do
+    [ $result -ne 0 ] && {
+      echo -e "\n${RED}The command \"$@\" failed. Retrying, $count of 3.${RESET}\n" >&2
+    }
+    "$@"
+    result=$?
+    [ $result -eq 0 ] && break
+    count=$(($count + 1))
+    sleep 1
+  done
+
+  [ $count -eq 3 ] && {
+    echo "\n${RED}The command \"$@\" failed 3 times.${RESET}\n" >&2
+  }
+
+  set -e
+  return $result
+}
+###
+
+
 # /home/travis/build/chetan/bixby-integration-tests
 TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 sudo ln -s $TEST_ROOT /opt/bixby-integration
@@ -30,7 +61,7 @@ git checkout -qb bixby origin/bixby
 
 # install test deps
 cd $TEST_ROOT/tests
-bundle install --retry=3 --deployment
+travis_retry bundle install --retry=3 --deployment
 
 
 ################################################################################
@@ -54,4 +85,4 @@ cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
-bundle install --retry=3 --deployment
+travis_retry bundle install --retry=3 --deployment
