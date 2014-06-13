@@ -20,11 +20,11 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
     visit url()
     assert_selector_i "div.host_list div.host div.body a.monitoring"
-    find("div.host_list div.host div.actions a.monitoring").click
+    find("div.host_list div.host div.body a.monitoring").click
 
     wait_for_state("mon_view_host", 60) # really slow right now.. need to speed up mongo driver or switch to kairos
 
-    assert find("h3").text =~ /Metrics for bixbytest/
+    assert find("h3").text =~ /Metrics for hostalias.*/
 
     checks = Bixby::Model::Check.list(1)
 
