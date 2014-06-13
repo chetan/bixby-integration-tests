@@ -21,6 +21,10 @@ EasyCov.start
 
 require "micron/minitest"
 
+# disable logging
+require "httpi"
+HTTPI.log = false
+
 require "oj" # make sure we are using oj for multi_json
 require "setup/base"
 require "setup/agent_test_case"
