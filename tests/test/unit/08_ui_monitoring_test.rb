@@ -6,6 +6,11 @@ require 'awesome_print'
 module Bixby
 class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
 
+  def setup
+    super
+    @commands = Bixby::Model::Command.list
+  end
+
   def test_verify_all_metric_graphs_for_host
 
     # sleep for an extra reporting cycle to complete
@@ -14,7 +19,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     sleep(65)
 
     visit url()
-    assert_selector_i "div.host_list div.host div.actions a.monitoring"
+    assert_selector_i "div.host_list div.host div.body a.monitoring"
     find("div.host_list div.host div.actions a.monitoring").click
 
     wait_for_state("mon_view_host", 60) # really slow right now.. need to speed up mongo driver or switch to kairos
@@ -112,8 +117,8 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
     end
   end
 
-  def test_add_process_memory_usage
-    add_check_command({:command_name => "mongod"}, "Process Memory Usage", "ARGS: COMMAND_NAME = MONGOD")
+  def test_add_process_usage
+    add_check_command({:command_name => "mongod"}, "Process Usage", "ARGS: COMMAND_NAME = MONGOD")
   end
 
 
@@ -153,7 +158,7 @@ class Integration::UI::Monitoring < Bixby::Test::LoggedInUITestCase
   end
 
   def find_check_id(name)
-    Bixby::Model::Command.list.each do |cmd|
+    @commands.each do |cmd|
       if cmd.name == name then
         return cmd.id
       end

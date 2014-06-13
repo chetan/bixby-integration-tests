@@ -87,7 +87,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
       :command => "monitoring/connection_state.rb",
     },
     {
-      :name => "process memory usage",
+      :name => "process usage",
       :repo    => "vendor",
       :bundle  => "system/general",
       :command => "monitoring/process_usage.rb",
@@ -144,7 +144,7 @@ class Integration::Monitoring < Bixby::Test::AgentTestCase
 
     # find the command
     cmd[:repo] ||= "vendor"
-    command = @commands.find{ |c| c["repo"] == cmd[:repo] && c["bundle"] == cmd[:bundle] && c["command"] == cmd[:command] }
+    command = @commands.find{ |c| c["repo"] == cmd[:repo] && c.bundle["path"] == cmd[:bundle] && c["command"] == cmd[:command] }
     assert command
 
     # add_check call to manager

@@ -33,7 +33,7 @@ class Integration::UI::Inventory < Bixby::Test::LoggedInUITestCase
   end
 
   def test_has_monitoring_link
-    assert_selector_i "div.host_list div.host div.actions a.monitoring"
+    assert_selector_i "div.host_list div.host div.body a.monitoring"
   end
 
   def test_view_host_data
