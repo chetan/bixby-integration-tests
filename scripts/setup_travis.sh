@@ -7,6 +7,7 @@ set -x
 # /home/travis/build/chetan/bixby-integration-tests
 TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 
+sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get -qq update
 sudo apt-get -qq install nginx ruby rubygems
 sudo gem install god --quiet --no-ri --no-rdoc
