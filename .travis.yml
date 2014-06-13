@@ -17,6 +17,10 @@ addons:
 env:
   DB_USER: postgres
   RAILS_ENV: integration
+  global:
+    - S3_REGION="us-east-1"
+    - S3_BUCKET_NAME="io.bixby.gemcache.wad.integration"
+    - secure: bnMJOHx5QrfTgOcxg0glw5x9mDoAJ0kKWILQaFCqwORwiJE4nh/3jYsx/uifVmSqOMXqY/9ozBwYrWeG6krPdcFCPS6mq4dVWsbtgQa31x9IWhjUg5lOt0MCrGXpq1JOD3CFIxnQ2f77hl0TzxutIfAtO023ad598+5/FVviyik=
 
 before_install:
   - "curl -sL https://s3.bixby.io/wad > ~/wad"
