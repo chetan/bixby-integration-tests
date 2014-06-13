@@ -15,7 +15,8 @@ current=$bixby/current
 # cleanup existing data
 sudo rm -rf $bixby/shared
 sudo mkdir -p $shared/log $shared/bixby $shared/pids
-sudo chown -R vagrant:vagrant $bixby/shared/
+GROUP=$(groups | cut -d' ' -f1)
+sudo chown -R $USER:$GROUP $bixby/shared/
 
 echo "updating manager"
 cd $current
@@ -28,6 +29,10 @@ cp -a /opt/bixby-integration/manager/database.yml \
       /opt/bixby-integration/manager/mongoid.yml \
       /opt/bixby-integration/manager/secrets.yml \
       $current/config/
+
+# fix user:group in bixby.yml
+sed -i "0,/vagrant/s/vagrant/$USER/" $current/config/bixby.yml
+sed -i "0,/vagrant/s/vagrant/$GROUP/" $current/config/bixby.yml
 
 cd $current
 rake db:drop >/dev/null
