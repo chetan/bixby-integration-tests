@@ -8,7 +8,7 @@ set -x
 TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 
 sudo apt-get -qq update
-sudo apt-get -qq install nginx
+sudo apt-get -qq install nginx ruby rubygems
 sudo gem install god --quiet --no-ri --no-rdoc
 
 # setup nginx
