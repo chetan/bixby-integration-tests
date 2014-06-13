@@ -31,8 +31,15 @@ cp -a /opt/bixby-integration/manager/database.yml \
       $current/config/
 
 # fix user:group in bixby.yml
-sed -i "0,/vagrant/s/vagrant/$USER/" $current/config/bixby.yml
-sed -i "0,/vagrant/s/vagrant/$GROUP/" $current/config/bixby.yml
+if [[ $USER != "vagrant" ]]; then
+  sed -i "0,/vagrant/s/vagrant/$USER/" $current/config/bixby.yml
+  sed -i "0,/vagrant/s/vagrant/$GROUP/" $current/config/bixby.yml
+fi
+
+# fix database user
+if [[ -n "$DB_USER" ]]; then
+  echo "  username: '$DB_USER'" >> $current/config/database.yml
+fi
 
 cd $current
 rake db:drop >/dev/null
