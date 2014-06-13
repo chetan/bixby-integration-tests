@@ -61,7 +61,7 @@ git checkout -qb bixby origin/bixby
 
 # install test deps
 cd $TEST_ROOT/tests
-travis_retry wad
+travis_retry ~/wad
 
 
 ################################################################################
@@ -85,4 +85,4 @@ cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
-travis_retry wad
+travis_retry ~/wad
