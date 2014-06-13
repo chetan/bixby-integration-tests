@@ -2,5 +2,6 @@
 integration:
   adapter: postgresql
   database: bixby
+  username: vagrant
   pool: 5
   timeout: 5000
