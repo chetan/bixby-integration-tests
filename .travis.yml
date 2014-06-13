@@ -1,0 +1,31 @@
+
+language: ruby
+rvm:
+- 2.1.1
+branches:
+  only:
+    - master
+
+services:
+  - redis-server
+  - mongodb
+  - postgresql
+
+addons:
+  postgresql: "9.2"
+
+env:
+  DB_USER: postgres
+  RAILS_ENV: integration
+
+before_install:
+  - "curl -sL https://s3.bixby.io/wad > ~/wad"
+  - "chmod +x ~/wad"
+
+install:
+  - "scripts/setup_travis.sh"
+
+before_script:
+  - "psql -c 'create database bixby' -U postgres"
+
+script: "scripts/ci.sh"

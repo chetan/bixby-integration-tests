@@ -1,28 +1,26 @@
 
 source "https://rubygems.org"
 
-group :development do
-    # bixby gems
-    gem "api-auth", :github => "chetan/api_auth", :branch => "bixby"
-    gem "bixby-common", :path => "~/src/common"
-    gem "bixby-client", :path => "~/src/client"
+# bixby gems
+gem "api-auth", :github => "chetan/api_auth", :branch => "bixby"
+gem "bixby-common", :path => "~/src/common"
+gem "bixby-client", :path => "~/src/client"
 
-    gem "sidekiq", "~>2.16.1"
+gem "sidekiq", "~>2.16.1"
 
-    # test tools (frameworks, mock, runners, etc)
-    gem 'rake-hooks', :require => false
+# test tools (frameworks, mock, runners, etc)
+gem 'rake-hooks', :require => false
 
-    # test utils
-    gem "easycov", :github => "chetan/easycov"
-    gem "micron", :github => "chetan/micron"
-    gem "test_guard", :github => "chetan/test_guard"
+# test utils
+gem "easycov", :github => "chetan/easycov"
+gem "micron", :github => "chetan/micron"
+gem "test_guard", :github => "chetan/test_guard"
 
-    # ui
-    gem "capybara"
-    gem "poltergeist", :github => "chetan/poltergeist", :branch => "bixby"
+# ui
+gem "capybara"
+gem "poltergeist", :github => "chetan/poltergeist", :branch => "bixby"
 
-    # misc
-    gem "awesome_print"
-    gem "pry"
-    gem "yard"
-end
+# misc
+gem "awesome_print"
+gem "pry"
+gem "yard"
