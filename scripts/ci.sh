@@ -6,7 +6,7 @@ set -e
 sudo mount -a
 
 set +x
-if [[ -f $HOME/.bash_profile ]]; then
+if [[ $USER != "travis" ]]; then
   # rvm hack, won't get used on travis
   source $HOME/.bash_profile
   rvm use default
@@ -26,8 +26,8 @@ for repo in manager agent client common api_auth; do
   git pull -q
 done
 
-
-cd /opt/bixby-integration
+export TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
+cd $TEST_ROOT
 
 # stop running daemons
 scripts/manager/stop.sh

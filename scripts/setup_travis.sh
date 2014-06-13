@@ -1,15 +1,15 @@
 #!/bin/bash
 
 set -e
+unset cd
 set -x
 
-TEST_ROOT=$(pwd)
-echo $TEST_ROOT
-exit 1
+# /home/travis/build/chetan/bixby-integration-tests
+TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 
 sudo apt-get -qq update
-sudo apt-get install nginx
-sudo gem install god --no-ri --no-rdoc
+sudo apt-get -qq install nginx
+sudo gem install god --quiet --no-ri --no-rdoc
 
 # setup nginx
 sudo rm -f /etc/nginx/sites-enabled/*

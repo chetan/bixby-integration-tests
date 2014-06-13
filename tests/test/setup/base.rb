@@ -38,11 +38,17 @@ module Bixby
         end
       end
 
+      def run_script(path)
+        s = ENV["TEST_ROOT"] || "/opt/bixby-integration"
+        s = File.join(s, "scripts", path)
+        return systemu(s)
+      end
+
       # Reset agent state, but do not start
       def reset_agent
-        shell = systemu("/opt/bixby-integration/scripts/agent/stop.sh")
+        shell = run_script("agent/stop.sh")
         assert shell.success?, "agent stopped successfully"
-        shell = systemu("/opt/bixby-integration/scripts/agent/reset.sh")
+        shell = run_script("agent/reset.sh")
         assert shell.success?, "agent reset successfully"
       end
 
@@ -55,9 +61,9 @@ module Bixby
 
       # Reset the manager state, but do not start
       def reset_manager
-        shell = systemu("/opt/bixby-integration/scripts/manager/stop.sh")
+        shell = run_script("manager/stop.sh")
         assert shell.success?, "manager stopped successfully"
-        shell = systemu("/opt/bixby-integration/scripts/manager/reset.sh")
+        shell = run_script("manager/reset.sh")
         assert shell.success?, "manager reset successfully"
       end
 
