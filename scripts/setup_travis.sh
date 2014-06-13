@@ -6,6 +6,7 @@ set -x
 
 # /home/travis/build/chetan/bixby-integration-tests
 TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
+sudo ln -s $TEST_ROOT /opt/bixby-integration
 
 sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get -qq update
