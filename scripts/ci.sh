@@ -38,3 +38,7 @@ scripts/agent/upgrade.sh
 cd tests
 bundle install --quiet
 bundle exec micron
+
+# workaround for weird bug where exit code gets overwritten and always returns 0 instead
+ret=$(cat .micron/last_run)
+exit $ret
