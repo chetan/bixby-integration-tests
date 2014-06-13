@@ -35,10 +35,8 @@ if [[ $USER != "vagrant" ]]; then
   sed -i "0,/vagrant/s/vagrant/$USER/" $current/config/bixby.yml
   sed -i "0,/vagrant/s/vagrant/$GROUP/" $current/config/bixby.yml
 
-  # fix database user
-  if [[ -n "$DB_USER" ]]; then
-    sed -i "0,/vagrant/s/vagrant/$DB_USER/" $current/config/database.yml
-  fi
+  # fix database user - always change to postgres (because we are on travis)
+  sed -i "0,/vagrant/s/vagrant/postgres/" $current/config/database.yml
 fi
 
 cd $current
