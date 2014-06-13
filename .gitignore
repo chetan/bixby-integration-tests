@@ -6,3 +6,6 @@ coverage
 .yardoc
 bin/
 .tags
+tests/.micron/
+tests/.coverage/
+tests/coverage/
