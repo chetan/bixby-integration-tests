@@ -41,7 +41,7 @@ sudo ln -s $TEST_ROOT /opt/bixby-integration
 
 sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get -qq update
-sudo apt-get -qq install nginx ruby rubygems libevent-2.0
+sudo apt-get -qq install nginx ruby rubygems libevent-dev
 sudo gem install god --quiet --no-ri --no-rdoc
 
 # setup nginx
