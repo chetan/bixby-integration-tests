@@ -24,6 +24,9 @@ cd $TEST_ROOT
 scripts/manager/upgrade.sh
 scripts/agent/upgrade.sh
 
+# overwrite god scripts
+cp -a manager/*.god /var/www/bixby/current/config/deploy/god/
+
 # run tests
 cd tests
 # bundle install --quiet
