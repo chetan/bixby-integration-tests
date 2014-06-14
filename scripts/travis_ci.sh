@@ -17,8 +17,8 @@ export TEST_ROOT=$(pwd)
 cd $TEST_ROOT
 
 # stop running daemons
-scripts/manager/stop.sh
-scripts/agent/stop.sh
+# scripts/manager/stop.sh
+# scripts/agent/stop.sh
 
 # upgrade manager and agent
 scripts/manager/upgrade.sh
