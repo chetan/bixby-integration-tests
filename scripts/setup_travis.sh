@@ -53,7 +53,8 @@ sudo service nginx restart
 mkdir -p $HOME/src
 cd $HOME/src
 for proj in common client agent manager; do
-  git clone https://github.com/chetan/bixby-$proj.git $proj
+  git clone --quiet https://github.com/chetan/bixby-$proj.git $proj
+  git log -1 --oneline | cat -
 done
 git clone https://github.com/chetan/api_auth.git
 cd api_auth
