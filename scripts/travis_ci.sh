@@ -31,6 +31,7 @@ bundle exec micron
 
 # temp debug
 cat /var/www/bixby/current/log/*
+sudo cat /var/log/syslog
 
 # workaround for weird bug where exit code gets overwritten and always returns 0 instead
 ret=$(cat .micron/last_run)
