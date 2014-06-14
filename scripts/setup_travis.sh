@@ -90,4 +90,5 @@ cd $current
 mkdir -p tmp
 ln -sf $shared/pids $current/tmp/
 ln -sf $shared/log $current/
-travis_retry ~/wad
+# use same wad bucket as manager
+travis_retry env S3_BUCKET_NAME="io.bixby.gemcache.wad.manager" ~/wad
