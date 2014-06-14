@@ -52,13 +52,17 @@ sudo service nginx restart
 
 mkdir -p $HOME/src
 cd $HOME/src
+set +x
 for proj in common client agent manager; do
   git clone --quiet https://github.com/chetan/bixby-$proj.git $proj
+  cd $proj
   git log -1 --oneline | cat -
+  cd ..
 done
-git clone https://github.com/chetan/api_auth.git
+git clone --quiet https://github.com/chetan/api_auth.git
 cd api_auth
 git checkout -qb bixby origin/bixby
+set -x
 
 # install test deps
 cd $TEST_ROOT/tests
