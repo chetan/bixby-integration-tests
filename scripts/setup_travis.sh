@@ -44,6 +44,8 @@ sudo apt-get -qq update
 sudo apt-get -qq install nginx ruby rubygems libevent-dev
 sudo gem install god --quiet --no-ri --no-rdoc
 sudo god check
+cat /usr/local/bin/god
+sudo /usr/bin/ruby /usr/local/bin/god check
 exit 1
 
 # setup nginx
