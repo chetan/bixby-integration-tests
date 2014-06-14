@@ -43,6 +43,8 @@ sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get -qq update
 sudo apt-get -qq install nginx ruby rubygems libevent-dev
 sudo gem install god --quiet --no-ri --no-rdoc
+sudo god check
+exit 1
 
 # setup nginx
 sudo rm -f /etc/nginx/sites-enabled/*
