@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
+
 set -e
 
 # make sure /var/www/bixby/current is always mounted
@@ -26,7 +28,6 @@ for repo in manager agent client common api_auth; do
   git pull -q
 done
 
-export TEST_ROOT=$( readlink -f $(dirname $(readlink -f $0))/.. )
 cd $TEST_ROOT
 
 # stop running daemons
