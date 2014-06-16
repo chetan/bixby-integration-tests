@@ -56,7 +56,7 @@ sudo apt-get -qq update
 sudo apt-get -qq -y install mongodb-10gen redis-server nginx
 
 sudo gem install god --no-ri --no-rdoc
-\curl -L https://get.rvm.io | bash -s stable --ruby
+\curl -L https://get.rvm.io | bash -s stable --ruby=2.1.2
 
 source $HOME/.rvm/scripts/rvm
 
