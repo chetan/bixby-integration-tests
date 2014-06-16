@@ -38,7 +38,10 @@ module Bixby
       end
 
       def teardown
-        take_screenshot()
+        if ENV["USER"] != "travis" then
+          # skip on travis, can't use them anyway
+          take_screenshot()
+        end
         super # do last, so we don't lose our session
       end
 

@@ -33,6 +33,7 @@ class Bixby::Integration::Register < Bixby::Test::TestCase
     end
 
     agent_config = YAML.load_file("/opt/bixby/etc/bixby.yml")
+    p agent_config
     %w{manager_uri uuid mac_address access_key secret_key log_level}.each do |k|
       assert_includes agent_config, k, "bixby.yml includes #{k}"
       refute_nil agent_config[k], "bixby.yml key #{k} is not empty"
@@ -47,7 +48,7 @@ class Bixby::Integration::Register < Bixby::Test::TestCase
     # verify host attributes
     h = hosts.first
     assert_equal 1, h["id"]
-    assert_equal "bixbytest", h["hostname"]
+    assert h["hostname"] =~ /bixbytest|test/
     assert_equal "127.0.0.1", h["ip"]
     assert_equal "default", h["org"]
     assert_nil h["alias"]

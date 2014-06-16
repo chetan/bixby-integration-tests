@@ -38,7 +38,7 @@ class Bixby::Integration::Host < Bixby::Test::TestCase
     assert_kind_of Array, md
 
     refute_nil md.find{ |m| m["key"] == "kernel" && m["value"] == "Linux" }
-    refute_nil md.find{ |m| m["key"] == "hostname" && m["value"] == "bixbytest" }
+    refute_nil md.find{ |m| m["key"] == "hostname" && m["value"] =~ /bixbytest|test/ }
   end
 
 end

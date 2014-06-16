@@ -38,6 +38,8 @@ for f in `ls /var/www/bixby/current/log/*god*`; do
 done
 echo
 sudo cat /var/log/syslog | grep god
+echo
+ps auxwwf
 
 # workaround for weird bug where exit code gets overwritten and always returns 0 instead
 ret=$(cat .micron/last_run)
